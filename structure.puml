@@ -1,0 +1,55 @@
+@startuml
+class User1 {}
+class User2 {}
+class Admin {}
+class Nginx {
+проксирует запросы
+}
+class Gateway {
+Обрабатывает HTTP запросы от других частей проекта
+}
+class SemanticSearcher {
+Семантический поисковик
+}
+class TextExplanatory {
+Объяснялка
+}
+class LinkGenerator {
+Генератор ссылок
+}
+class TagGenerator {
+Генератор тегов
+}
+class Frontend {}
+class Database {}
+class Strapi {}
+class Broker {
+Херня для проброса данных между микросервисами
+}
+class Adapter {
+Модуль пересылки данных в Strapi
+}
+Strapi --> Database : Взаимодействие с БД
+Frontend <--> Gateway : Запросы на получение подсказок от нейронок
+Frontend <--> Gateway : Websocket (для чата с ИИ или тому подобного)?
+Frontend --> Strapi : Запросы на получение книжек и т.д.
+User1 --> Nginx : Заходит на сайт
+User2 --> Nginx : Заходит на сайт
+Admin --> Nginx : Заходит в админку
+Nginx --> Frontend : Если пользователь запрашивает ссылки без префикса
+Nginx --> Gateway : Если префикс /api
+Nginx --> Strapi : Если префикс admin
+Strapi --> Gateway : Триггер на изменение данных (перегенерируем ИИ тэги)
+Gateway --> Broker : Запросы к иишке
+Broker --> SemanticSearcher : Запросы к семантическому поисковику
+SemanticSearcher --> Broker : Ответы от семантического поисковика
+Broker --> Gateway : Ответы от иишки
+Broker --> TextExplanatory : Запросы к текстовому объяснялке
+TextExplanatory --> Broker : Ответы от текстового объяснялки
+Broker --> LinkGenerator : Запросы к генератору ссылок
+LinkGenerator --> Broker : Ответы от генератора ссылок
+Broker --> TagGenerator : Запуск триггера на разметку данных (можно вообще отделить эту штуку и сделать отдельным от брокера сервисом)
+TagGenerator --> Broker : Данные о разметке
+Broker --> Adapter : Данные о разметке
+Adapter --> Strapi : Изменения в БД
+@enduml
