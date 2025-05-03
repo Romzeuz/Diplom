@@ -5,7 +5,7 @@ services:
     build:
         context: strapi/my-strapi-project
         dockerfile: Dockerfile
-    image: strapi:latest
+    image: strapi/strapi:latest
     restart: unless-stopped
     env_file: .env
     environment:
