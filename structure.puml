@@ -8,12 +8,6 @@ class Nginx {
 class Gateway {
 Обрабатывает HTTP запросы от других частей проекта
 }
-class SemanticSearcher {
-Семантический поисковик
-}
-class TextExplanatory {
-Объяснялка
-}
 class LinkGenerator {
 Генератор ссылок
 }
@@ -41,11 +35,7 @@ Nginx --> Gateway : Если префикс /api
 Nginx --> Strapi : Если префикс admin
 Strapi --> Gateway : Триггер на изменение данных (перегенерируем ИИ тэги)
 Gateway --> Broker : Запросы к иишке
-Broker --> SemanticSearcher : Запросы к семантическому поисковику
-SemanticSearcher --> Broker : Ответы от семантического поисковика
 Broker --> Gateway : Ответы от иишки
-Broker --> TextExplanatory : Запросы к текстовому объяснялке
-TextExplanatory --> Broker : Ответы от текстового объяснялки
 Broker --> LinkGenerator : Запросы к генератору ссылок
 LinkGenerator --> Broker : Ответы от генератора ссылок
 Broker --> TagGenerator : Запуск триггера на разметку данных (можно вообще отделить эту штуку и сделать отдельным от брокера сервисом)

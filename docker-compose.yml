@@ -5,7 +5,7 @@ services:
     build:
         context: strapi/my-strapi-project
         dockerfile: Dockerfile
-    image: strapi/strapi:latest
+    image: strapi-build
     restart: unless-stopped
     env_file: .env
     environment:
@@ -19,12 +19,6 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
-    volumes:
-      - ./strapi/my-strapi-project/config:/opt/app/config
-      - ./strapi/my-strapi-project/src:/opt/app/src
-      - ./strapi/my-strapi-project/package.json:/opt/package.json
-      - ./.env:/opt/app/.env
-      - ./strapi/my-strapi-project/public/uploads:/opt/app/public/uploads
     ports:
       - "1337:1337"
     networks:
