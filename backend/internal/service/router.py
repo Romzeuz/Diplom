@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+from typing import Annotated
+
+from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import Field, BaseModel
 
 app = FastAPI()
 app.add_middleware(
@@ -25,3 +28,17 @@ async def somfkams():
 async def handle_something():
     # Здесь вы можете обработать POST-запрос
     return {"message": "POST request received"}
+
+
+# backend/internal/service/gateway_models.py
+class LinkRequest(BaseModel):
+    text: str = Field(title="Текст", description="Текст, на который создаётся гиперссылка")
+    start_index: int = Field(title="Начальный индекс",
+                             description="Начальный индекс текста, на который создаётся гиперссылка, в MD файле")
+    end_index: int = Field(title="Конечный индекс")
+    book_id: int = Field(title="ID книги", description="ID книги, к которой относится гиперссылка")
+
+# backend/internal/service/router.py
+@app.post("/links")
+def handle_links_request(link: Annotated[LinkRequest, Body(embed=True)]):
+	# получение модели

@@ -45,6 +45,17 @@ services:
     networks:
       - strapi
 
+  broker:
+    container_name: broker
+    image: nats:latest
+    restart: unless-stopped
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    networks:
+      - strapi
+
 volumes:
   strapi-data:
 
