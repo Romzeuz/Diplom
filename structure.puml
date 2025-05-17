@@ -7,12 +7,20 @@ class Nginx {
 }
 class Gateway {
 Обрабатывает HTTP запросы от других частей проекта
+void ConnectToBroker()
+void SendMessage(subject string, payload any)
 }
 class LinkGenerator {
 Генератор ссылок
+void ConnectToBroker()
+void ListenSubject(subject string)
+void SendMessage(subject string, payload any)
 }
 class TagGenerator {
 Генератор тегов
+void ConnectToBroker()
+void ListenSubject(subject string)
+void SendMessage(subject string, payload any)
 }
 class Frontend {}
 class Database {}
@@ -22,6 +30,9 @@ class Broker {
 }
 class Adapter {
 Модуль пересылки данных в Strapi
+void ConnectToBroker()
+void ListenSubject(subject string)
+void PublishDataToStrapi(data any)
 }
 Strapi --> Database : Взаимодействие с БД
 Frontend <--> Gateway : Запросы на получение подсказок от нейронок
