@@ -69,7 +69,19 @@ export interface AIExplanation {
     links?: string[];
 }
 
-export interface Huyna {
+export interface Test {
     id: number;
     message: string;
+}
+
+export interface LinkRequest {
+    text: string;
+    start_index: number;
+    end_index: number;
+    book_id: number;
+}
+
+export interface LinkResponse {
+    text: string;
+    link: string;
 }

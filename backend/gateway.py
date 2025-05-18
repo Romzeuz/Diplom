@@ -1,1 +1,1 @@
-from internal.service import *
+from internal.service import router

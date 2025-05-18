@@ -23,12 +23,10 @@ const TextView: React.FC = () => {
 
       setLoading(true);
       try {
+        const links = await aiApi.getContextualLinks({text: "takosfkamsf", start_index: 1,
+          end_index: 59, book_id: 1});
         const data = await textApi.getText(parseInt(id));
         setText(data);
-
-        // Получаем контекстные ссылки для текста
-        const links = await aiApi.getContextualLinks(data.text);
-        // Здесь можно обработать полученные ссылки
       } catch (error) {
         console.error('Ошибка при загрузке текста:', error);
       } finally {

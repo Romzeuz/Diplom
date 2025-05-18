@@ -4,6 +4,8 @@ from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import Field, BaseModel
 
+from gateway_models import LinkRequest, LinkResponse
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -30,15 +32,7 @@ async def handle_something():
     return {"message": "POST request received"}
 
 
-# backend/internal/service/gateway_models.py
-class LinkRequest(BaseModel):
-    text: str = Field(title="Текст", description="Текст, на который создаётся гиперссылка")
-    start_index: int = Field(title="Начальный индекс",
-                             description="Начальный индекс текста, на который создаётся гиперссылка, в MD файле")
-    end_index: int = Field(title="Конечный индекс")
-    book_id: int = Field(title="ID книги", description="ID книги, к которой относится гиперссылка")
-
-# backend/internal/service/router.py
-@app.post("/links")
-def handle_links_request(link: Annotated[LinkRequest, Body(embed=True)]):
-	# получение модели
+@app.post("/api/links")
+def handle_links_request(link: Annotated[LinkRequest, Body(embed=True)]) -> LinkResponse:
+    print(link.json())
+    return LinkResponse(text=link.text, link="Крутая книга - Райбекас - страница 54")

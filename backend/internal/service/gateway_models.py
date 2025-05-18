@@ -7,3 +7,8 @@ class LinkRequest(BaseModel):
                              description="Начальный индекс текста, на который создаётся гиперссылка, в MD файле")
     end_index: int = Field(title="Конечный индекс")
     book_id: int = Field(title="ID книги", description="ID книги, к которой относится гиперссылка")
+
+
+class LinkResponse(BaseModel):
+    text: str = Field(title="Текст", description="Текст ссылки")
+    link: str = Field(title="Ссылка")

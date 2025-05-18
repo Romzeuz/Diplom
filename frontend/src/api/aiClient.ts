@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_CONFIG } from './config';
-import {AIExplanation, Huyna} from '../types';
+import {AIExplanation, LinkRequest, LinkResponse, Test} from '../types';
 import strapiClient from "./strapiClient";
 
 const aiClient = axios.create({
@@ -16,12 +16,12 @@ export const aiApi = {
     return response.data;
   },
 
-  getContextualLinks: async (text: string): Promise<string[]> => {
-    const response = await aiClient.post('/contextual-links', { text });
-    return response.data.links;
+  getContextualLinks: async (request: LinkRequest): Promise<LinkResponse> => {
+    const response = await aiClient.post('/links', request);
+    return response.data;
   },
 
-  getSomething: async (text: string): Promise<Huyna> => {
+  getSomething: async (text: string): Promise<Test> => {
     const response = await aiClient.post(`/something`);
     console.log(response.data);
     return response.data;
