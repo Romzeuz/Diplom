@@ -4,6 +4,7 @@ import { textApi } from '../api/strapiClient';
 import { Text } from '../types';
 import TextCard from '../components/TextCard';
 import SearchFilter from '../components/SearchFilter';
+import './CollectionPage.css';
 
 const CollectionPage: React.FC = () => {
   const [texts, setTexts] = useState<Text[]>([]);
@@ -89,13 +90,13 @@ const CollectionPage: React.FC = () => {
         </div>
       ) : texts.length > 0 ? (
         <>
-          <Row gutter={[16, 16]} style={{ marginTop: 24, marginBottom: 24 }}>
+          <div className="masonry-grid" style={{ marginTop: 24, marginBottom: 24 }}>
             {texts.map(text => (
-              <Col xs={24} sm={12} md={8} lg={6} key={text.id}>
+              <div className="masonry-item" key={text.id}>
                 <TextCard text={text} />
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
 
           <Row justify="center">
             <Col>
