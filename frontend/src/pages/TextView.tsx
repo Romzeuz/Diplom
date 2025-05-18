@@ -23,12 +23,10 @@ const TextView: React.FC = () => {
 
       setLoading(true);
       try {
+        const links = await aiApi.getContextualLinks({text: "takosfkamsf", start_index: 1,
+          end_index: 59, book_id: 1});
         const data = await textApi.getText(parseInt(id));
         setText(data);
-
-        // Получаем контекстные ссылки для текста
-        const links = await aiApi.getContextualLinks(data.content);
-        // Здесь можно обработать полученные ссылки
       } catch (error) {
         console.error('Ошибка при загрузке текста:', error);
       } finally {
@@ -111,7 +109,7 @@ const TextView: React.FC = () => {
   return (
     <div className="text-view">
       <Title level={1}>{text.title}</Title>
-      <Paragraph type="secondary">Автор: {text.author}</Paragraph>
+      <Paragraph type="secondary">Автор: {String(text.authors)}</Paragraph>
 
       <div className="text-tools">
         <ExplanationPopover />
@@ -122,7 +120,7 @@ const TextView: React.FC = () => {
         onMouseUp={handleTextSelection}
       >
         <ReactMarkdown
-          children={text.content}
+          children={text.text}
           components={{
             // Кастомный рендеринг компонентов Markdown
             // Например, для автоматических гиперссылок и тултипов
