@@ -68,3 +68,8 @@ export interface AIExplanation {
     explanation: string;
     links?: string[];
 }
+
+export interface Huyna {
+    id: number;
+    message: string;
+}

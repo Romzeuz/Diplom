@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Row, Col, Card, Button, Typography, Divider } from 'antd';
 import { Link } from 'react-router-dom';
+import {aiApi} from "../api/aiClient";
 
 const { Title, Paragraph } = Typography;
 
 const HomePage: React.FC = () => {
+  const [text, setText] = React.useState("");
+
+  const tmp = async () => {
+    const data = await aiApi.getSomething("asmnfkmaksfmkas")
+    setText(data.message)
+  }
+  useEffect(() => {
+    tmp();
+  })
   return (
     <div className="home-page">
       <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
@@ -94,6 +104,7 @@ const HomePage: React.FC = () => {
           </Row>
         </Col>
       </Row>
+      <Paragraph>{text}</Paragraph>
     </div>
   );
 };
