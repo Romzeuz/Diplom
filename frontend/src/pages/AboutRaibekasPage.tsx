@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Timeline, Spin, Typography, Row, Col, Card } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-import { authorApi } from '../api/strapiClient';
+import {authorApi, mediaApi} from '../api/strapiClient';
 import { Author, TimelineEvent } from '../types';
+import {aiApi} from "../api/aiClient";
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -16,6 +17,7 @@ const AboutRaibekasPage: React.FC = () => {
       setLoading(true);
       try {
         const data = await authorApi.getRaibekasInfo();
+        console.log(data);
         setAuthor(data);
       } catch (error) {
         console.error('Ошибка при загрузке информации об авторе:', error);
@@ -51,25 +53,31 @@ const AboutRaibekasPage: React.FC = () => {
             </Col>
             <Col span={24} md={8}>
               {/* Здесь может быть фото автора */}
-              <Card>
-                <div style={{ textAlign: 'center' }}>Фото Райбекаса</div>
+              <Card cover={
+                <img
+                        alt="Фото автора"
+                        src={mediaApi.getMediaUrl(author.photo.url)}
+                        style={{ width: '100%', height: 'auto' }}
+                    />
+              }>
+                  Фото Альберта Яновича
               </Card>
             </Col>
           </Row>
 
           <Title level={3} style={{ marginTop: 32 }}>Основные этапы жизни и творчества</Title>
           <Timeline mode="alternate">
-            {author.timeline.map((event: TimelineEvent) => (
-              <Timeline.Item
-                key={event.id}
-                dot={event.year % 10 === 0 ? <ClockCircleOutlined style={{ fontSize: '16px' }} /> : undefined}
-              >
-                <div className="timeline-event">
-                  <h4>{event.year} - {event.title}</h4>
-                  <p>{event.description}</p>
-                </div>
-              </Timeline.Item>
-            ))}
+            {/*{author.timeline.map((event: TimelineEvent) => (*/}
+            {/*  <Timeline.Item*/}
+            {/*    key={event.id}*/}
+            {/*    dot={event.year % 10 === 0 ? <ClockCircleOutlined style={{ fontSize: '16px' }} /> : undefined}*/}
+            {/*  >*/}
+            {/*    <div className="timeline-event">*/}
+            {/*      <h4>{event.year} - {event.title}</h4>*/}
+            {/*      <p>{event.description}</p>*/}
+            {/*    </div>*/}
+            {/*  </Timeline.Item>*/}
+            {/*))}*/}
           </Timeline>
         </TabPane>
 

@@ -12,16 +12,16 @@ const TextCard: React.FC<TextCardProps> = ({ text }) => {
     <Link to={`/text/${text.id}`}>
       <Card
         hoverable
-        cover={<img alt={text.title} src={text.coverUrl} />}
+        cover={<img alt={text.title} src={text.logo} />}
         style={{ marginBottom: 16 }}
       >
         <Card.Meta
           title={text.title}
-          description={text.author}
+          description={String(text.authors)}
         />
         <div style={{ marginTop: 8 }}>
           {text.tags.map(tag => (
-            <Tag key={tag}>{tag}</Tag>
+            <Tag key={tag.id}>{tag.title}</Tag>
           ))}
         </div>
       </Card>

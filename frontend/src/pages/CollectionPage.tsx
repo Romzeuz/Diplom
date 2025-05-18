@@ -37,11 +37,14 @@ const CollectionPage: React.FC = () => {
         if (selectedTags.length > 0) params.tags = selectedTags;
 
         // Предполагаем, что API возвращает метаданные о пагинации
-        const response = await textApi.getTexts(params);
-        setTexts(response);
+        const response = await textApi.getTexts();
+        setTexts(response.data);
+        console.log(response);
 
         // В реальном приложении получаем общее количество из ответа API
         // setPagination(prev => ({ ...prev, total: response.meta.total }));
+        if (response.meta.total !== pagination.total)
+          setPagination(prev => ({ ...prev, total: response.meta.total }));
       } catch (error) {
         console.error('Ошибка при загрузке текстов:', error);
       } finally {

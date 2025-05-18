@@ -1,28 +1,70 @@
+export interface StrapiResponse<T> {
+    data: T;
+    meta: {
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+    };
+}
+
+export interface StrapiMedia {
+    id: number;
+    documentID: string;
+    name: string;
+    alternativeText: string;
+    caption: string;
+    width: number;
+    height: number;
+    formats: any;
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl: string;
+    provider: string;
+    provider_metadata: any;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
+
 export interface Text {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  coverUrl: string;
-  tags: string[];
-  publishedAt: string;
+    id: number;
+    title: string;
+    text: string;
+    authors: Author[];
+    tags: Tag[];
+    logo: string;
 }
 
 export interface Author {
-  id: number;
-  name: string;
-  bio: string;
-  timeline: TimelineEvent[];
+    id: number;
+    documentId: string;
+    name: string;
+    bio: string
+    photo: StrapiMedia;
+    texts: Text[];
+    // timeline: TimelineEvent[];
+}
+
+export interface Tag {
+    id: number;
+    documentId: string;
+    title: string;
 }
 
 export interface TimelineEvent {
-  id: number;
-  year: number;
-  title: string;
-  description: string;
+    id: number;
+    documentId: string;
+    date: number;
+    caption: string;
+    description: string;
+    media: StrapiMedia;
 }
 
 export interface AIExplanation {
-  explanation: string;
-  links?: string[];
+    explanation: string;
+    links?: string[];
 }

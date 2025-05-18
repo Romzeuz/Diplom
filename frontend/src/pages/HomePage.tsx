@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
         <Col xs={24} md={8}>
           <Card
             title="О Райбекасе"
-            bordered={false}
+            variant="outlined"
             hoverable
             style={{ height: 300 }}
           >
@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
         <Col xs={24} md={8}>
           <Card
             title="Коллекция"
-            bordered={false}
+            variant="outlined"
             hoverable
             style={{ height: 300 }}
           >

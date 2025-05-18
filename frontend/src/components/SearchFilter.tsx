@@ -33,7 +33,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   // При изменении дебаунсированного значения вызываем onSearch
   useEffect(() => {
     onSearch(debouncedSearchValue);
-  }, [debouncedSearchValue, onSearch]);
+  }, [debouncedSearchValue]);
 
   return (
     <div className="search-filter">
