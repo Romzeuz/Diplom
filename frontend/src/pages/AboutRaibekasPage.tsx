@@ -4,6 +4,7 @@ import { ClockCircleOutlined } from '@ant-design/icons';
 import {authorApi, mediaApi} from '../api/strapiClient';
 import { Author, TimelineEvent } from '../types';
 import {aiApi} from "../api/aiClient";
+import TextCard from "../components/TextCard";
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -83,7 +84,13 @@ const AboutRaibekasPage: React.FC = () => {
 
         <TabPane tab="Тексты Райбекаса" key="texts">
           <Paragraph>Основные произведения и тексты автора.</Paragraph>
-          {/* Здесь может быть список основных произведений */}
+            <Row gutter={[24, 24]}>
+                {author.texts.map((text) => (
+                <Col span={24} md={12} key={text.id}>
+                    <TextCard text={text}></TextCard>
+                </Col>
+                ))}
+            </Row>
         </TabPane>
 
         <TabPane tab="О Райбекасе" key="about">

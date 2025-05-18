@@ -36,7 +36,7 @@ export interface Text {
     text: string;
     authors: Author[];
     tags: Tag[];
-    logo: string;
+    logo: StrapiMedia;
 }
 
 export interface Author {
@@ -46,7 +46,7 @@ export interface Author {
     bio: string
     photo: StrapiMedia;
     texts: Text[];
-    // timeline: TimelineEvent[];
+    timeline: TimelineEvent[];
 }
 
 export interface Tag {
@@ -58,7 +58,7 @@ export interface Tag {
 export interface TimelineEvent {
     id: number;
     documentId: string;
-    date: number;
+    date: string;
     caption: string;
     description: string;
     media: StrapiMedia;
