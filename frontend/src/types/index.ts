@@ -31,32 +31,43 @@ export interface StrapiMedia {
 }
 
 export interface Text {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  coverUrl: string;
-  tags: string[];
-  publishedAt: string;
+    id: number;
+    documentId: string;
+    title: string;
+    text: string;
+    authors: Author[];
+    tags: Tag[];
+    logo: StrapiMedia;
 }
 
 export interface Author {
-  id: number;
-  name: string;
-  bio: string;
-  timeline: TimelineEvent[];
+    id: number;
+    documentId: string;
+    name: string;
+    bio: string
+    photo: StrapiMedia;
+    texts: Text[];
+    timeline: TimelineEvent[];
+}
+
+export interface Tag {
+    id: number;
+    documentId: string;
+    title: string;
 }
 
 export interface TimelineEvent {
-  id: number;
-  year: number;
-  title: string;
-  description: string;
+    id: number;
+    documentId: string;
+    date: string;
+    caption: string;
+    description: string;
+    media: StrapiMedia;
 }
 
 export interface AIExplanation {
-  explanation: string;
-  links?: string[];
+    explanation: string;
+    links?: string[];
 }
 
 export interface Test {

@@ -12,7 +12,7 @@ const aiClient = axios.create({
 
 export const aiApi = {
   getExplanation: async (text: string): Promise<AIExplanation> => {
-    const response = await aiClient.post('/explain', { text });
+    const response = await aiClient.post('/explain', { text: text });
     return response.data;
   },
 
