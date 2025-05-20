@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {API_CONFIG} from './config';
-import {Text, Author, StrapiResponse} from '../types';
-import {useParams} from "react-router-dom";
+import {Text, Author, StrapiResponse, Tag} from '../types';
 
 const strapiClient = axios.create({
     baseURL: API_CONFIG.STRAPI_BASE_URL,
@@ -9,15 +8,16 @@ const strapiClient = axios.create({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${API_CONFIG.STRAPI_API_KEY}`,
     },
+    params: {
+        populate: "*",
+    }
 });
 
 export const textApi = {
-    getTexts: async (params?: { search?: string; tags?: string[] }): Promise<StrapiResponse<Text[]>> => {
+    getTexts: async (params?: { search?: string; tags?: Tag[]; authorId?: string }): Promise<StrapiResponse<Text[]>> => {
         const response = await strapiClient.get('/texts', {params: {...params, populate: "*"}});
         console.log(response.data);
-        const data = response.data.data.map((item: any) => ({
-            ...item
-        }))
+        const data = response.data.data;
         console.log('data', data);
         return {
             data,
@@ -30,12 +30,9 @@ export const textApi = {
         };
     },
 
-    getText: async (id: number): Promise<Text> => {
-        const response = await strapiClient.get(`/texts/${id}`);
-        return {
-            id: response.data.data.id,
-            ...response.data.data.attributes,
-        };
+    getText: async (id: string): Promise<Text> => {
+        const response = await strapiClient.get(`/texts/${id}`, {params: {populate: "*"}});
+        return response.data.data;
     },
 };
 
@@ -44,16 +41,14 @@ export const authorApi = {
         const response = await strapiClient.get('/authors', {params: {"filters[name][$eq]": "Альберт Янович Райбекас", populate: "*"}});
         console.log(response.data);
         const data = response.data.data[0];
-        return {
-            ...data
-        };
+        return data;
     },
 };
 
 export const tagApi = {
-    getTags: async (): Promise<string[]> => {
-        const response = await strapiClient.get('/tags');
-        return response.data.data.map((item: any) => item.attributes.name);
+    getTags: async (): Promise<Tag[]> => {
+        const response = await strapiClient.get('/tags', {params: {populate: "*"}});
+        return response.data.data;
     },
 }
 

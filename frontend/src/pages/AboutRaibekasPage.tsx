@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Timeline, Spin, Typography, Row, Col, Card } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-import {authorApi, mediaApi} from '../api/strapiClient';
+import {authorApi, mediaApi, textApi} from '../api/strapiClient';
 import { Author, TimelineEvent } from '../types';
 import {aiApi} from "../api/aiClient";
 import TextCard from "../components/TextCard";
@@ -18,6 +18,7 @@ const AboutRaibekasPage: React.FC = () => {
       setLoading(true);
       try {
         const data = await authorApi.getRaibekasInfo();
+        data.texts = (await textApi.getTexts()).data;
         console.log(data);
         setAuthor(data);
       } catch (error) {
@@ -41,6 +42,7 @@ const AboutRaibekasPage: React.FC = () => {
   if (!author) {
     return <div>Информация об авторе не найдена</div>;
   }
+  console.log(author);
 
   return (
     <div className="about-raibekas-page">
@@ -85,9 +87,12 @@ const AboutRaibekasPage: React.FC = () => {
         <TabPane tab="Тексты Райбекаса" key="texts">
           <Paragraph>Основные произведения и тексты автора.</Paragraph>
             <Row gutter={[24, 24]}>
-                {author.texts.map((text) => (
+                {author.texts?.map((text) => (
                 <Col span={24} md={12} key={text.id}>
-                    <TextCard text={text}></TextCard>
+                    {/*<TextCard text={text}/>*/}
+                    <Card
+                        cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}/>}
+                        style={{marginBottom: 16}}>{text.title}</Card>
                 </Col>
                 ))}
             </Row>

@@ -10,7 +10,7 @@ interface TextCardProps {
 
 const TextCard: React.FC<TextCardProps> = ({text}) => {
     return (
-        <Link to={`/text/${text.id}`}>
+        <Link to={`/text/${text.documentId}`}>
             <Card
                 hoverable
                 cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}/>}
@@ -18,7 +18,14 @@ const TextCard: React.FC<TextCardProps> = ({text}) => {
             >
                 <Card.Meta
                     title={text.title}
-                    description={String(text.authors)}
+                    description={<>
+                    {text.authors.map((author, index) => (
+                        <span key={author.id}>
+                            {author.name}
+                            {index < text.authors.length - 1 ? ', ' : ''}
+                        </span>
+                    ))}
+                    </>}
                 />
                 <div style={{marginTop: 8}}>
                     {text.tags.map(tag => (

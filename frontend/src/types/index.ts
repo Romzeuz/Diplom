@@ -32,6 +32,7 @@ export interface StrapiMedia {
 
 export interface Text {
     id: number;
+    documentId: string;
     title: string;
     text: string;
     authors: Author[];
