@@ -1,7 +1,7 @@
-ARG BASE_IMAGE="python_base"
-FROM ${BASE_IMAGE} as base
+ARG BASE_IMAGE=python-base
+FROM python-base AS base
 
 WORKDIR /app
 COPY . .
 
-CMD ["fastapi", "dev", "gateway.py"]
+CMD ["fastapi", "dev", "router.py"]

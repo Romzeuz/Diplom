@@ -4,7 +4,7 @@ from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import Field, BaseModel
 
-from gateway_models import LinkRequest, LinkResponse
+from internal.service.gateway_models import LinkRequest, LinkResponse
 
 app = FastAPI()
 app.add_middleware(

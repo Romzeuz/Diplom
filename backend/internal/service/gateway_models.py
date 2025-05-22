@@ -12,3 +12,6 @@ class LinkRequest(BaseModel):
 class LinkResponse(BaseModel):
     text: str = Field(title="Текст", description="Текст ссылки")
     link: str = Field(title="Ссылка")
+
+
+class LinkStrapiHookModel(BaseModel):

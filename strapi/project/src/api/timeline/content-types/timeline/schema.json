@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "timelines",
+  "info": {
+    "singularName": "timeline",
+    "pluralName": "timelines",
+    "displayName": "TimelineEvent",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "caption": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "timeline"
+    }
+  }
+}

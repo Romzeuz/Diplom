@@ -19,6 +19,8 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
+    volumes:
+      - ./strapi/project:/app/project
     ports:
       - "1337:1337"
     networks:
@@ -62,7 +64,7 @@ services:
       context: backend
       dockerfile: gateway.Dockerfile
       args:
-        - BASE_IMAGE="python_base"
+        - BASE_IMAGE="python-base"
     ports:
       - "8000:8000"
     networks:
@@ -74,7 +76,7 @@ services:
       context: backend
       dockerfile: service.Dockerfile
       args:
-        - BASE_IMAGE="python_base"
+        - BASE_IMAGE="python-base"
         - SERVICE_NAME="adapter"
     depends_on:
       - strapi
