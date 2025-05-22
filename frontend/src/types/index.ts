@@ -62,6 +62,7 @@ export interface TimelineEvent {
     date: string;
     caption: string;
     description: string;
+    author: Author;
     media: StrapiMedia;
 }
 

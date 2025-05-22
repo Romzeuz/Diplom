@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Select, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import useDebounce from '../hooks/useDebounce';
+import {Tag} from "../types";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -9,7 +10,7 @@ const { Option } = Select;
 interface SearchFilterProps {
   onSearch: (value: string) => void;
   onTagsChange: (tags: string[]) => void;
-  availableTags: string[];
+  availableTags: Tag[];
 }
 
 const SearchFilter: React.FC<SearchFilterProps> = ({
@@ -58,7 +59,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
             size="large"
           >
             {availableTags.map(tag => (
-              <Option key={tag} value={tag}>{tag}</Option>
+              <Option key={tag.documentId} value={tag.documentId}>{tag.title}</Option>
             ))}
           </Select>
         </Col>

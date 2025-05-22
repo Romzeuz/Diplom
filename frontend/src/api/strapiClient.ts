@@ -14,8 +14,27 @@ const strapiClient = axios.create({
 });
 
 export const textApi = {
-    getTexts: async (params?: { search?: string; tags?: Tag[]; authorId?: string }): Promise<StrapiResponse<Text[]>> => {
-        const response = await strapiClient.get('/texts', {params: {...params, populate: "*"}});
+    getTexts: async (params?: { search?: string; tags?: string[]; authorName?: string }): Promise<StrapiResponse<Text[]>> => {
+        const qs = require('qs');
+        const query = qs.stringify({
+            filters: {
+                title: {
+                    $contains: params?.search,
+                },
+                tags: {
+                    documentId: {
+                        $eq: params?.tags,
+                    },
+                },
+                authors: {
+                    name: {
+                        $contains: params?.authorName,
+                    },
+                },
+            }
+        });
+        console.log(query);
+        const response = await strapiClient.get(`/texts?${query}`);
         console.log(response.data);
         const data = response.data.data;
         console.log('data', data);

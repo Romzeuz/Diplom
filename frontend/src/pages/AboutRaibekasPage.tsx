@@ -70,17 +70,17 @@ const AboutRaibekasPage: React.FC = () => {
 
           <Title level={3} style={{ marginTop: 32 }}>Основные этапы жизни и творчества</Title>
           <Timeline mode="alternate">
-            {/*{author.timeline.map((event: TimelineEvent) => (*/}
-            {/*  <Timeline.Item*/}
-            {/*    key={event.id}*/}
-            {/*    dot={event.year % 10 === 0 ? <ClockCircleOutlined style={{ fontSize: '16px' }} /> : undefined}*/}
-            {/*  >*/}
-            {/*    <div className="timeline-event">*/}
-            {/*      <h4>{event.year} - {event.title}</h4>*/}
-            {/*      <p>{event.description}</p>*/}
-            {/*    </div>*/}
-            {/*  </Timeline.Item>*/}
-            {/*))}*/}
+            {author.timeline.map((event: TimelineEvent) => (
+              <Timeline.Item
+                key={event.id}
+                dot={Date.parse(event.date) % 10 === 0 ? <ClockCircleOutlined style={{ fontSize: '16px' }} /> : undefined}
+              >
+                <div className="timeline-event">
+                  <h4>{event.date} - {event.caption}</h4>
+                  <p>{event.description}</p>
+                </div>
+              </Timeline.Item>
+            ))}
           </Timeline>
         </TabPane>
 
