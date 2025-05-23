@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {API_CONFIG} from './config';
-import {Text, Author, StrapiResponse, Tag} from '../types';
+import {Text, Author, StrapiResponse, Tag, TimelineEvent} from '../types';
+import qs from 'qs';
 
 const strapiClient = axios.create({
     baseURL: API_CONFIG.STRAPI_BASE_URL,
@@ -15,7 +16,6 @@ const strapiClient = axios.create({
 
 export const textApi = {
     getTexts: async (params?: { search?: string; tags?: string[]; authorName?: string }): Promise<StrapiResponse<Text[]>> => {
-        const qs = require('qs');
         const query = qs.stringify({
             filters: {
                 title: {
@@ -62,6 +62,20 @@ export const authorApi = {
         const data = response.data.data[0];
         return data;
     },
+
+    getAuthorTimeline: async (authorName: string): Promise<TimelineEvent[]> => {
+        const params: string = qs.stringify({
+            filters: {
+                author: {
+                    name: {
+                        $eq: authorName,
+                    },
+                },
+            },
+        })
+        const response = await strapiClient.get(`/timelines?${params}`);
+        return response.data.data;
+    }
 };
 
 export const tagApi = {
