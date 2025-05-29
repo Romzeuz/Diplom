@@ -15,7 +15,8 @@ const strapiClient = axios.create({
 });
 
 export const textApi = {
-    getTexts: async (params?: { search?: string; tags?: string[]; authorName?: string }): Promise<StrapiResponse<Text[]>> => {
+    getTexts: async (params?: { search?: string; tags?: string[]; authorName?: string },
+                     pagination?: {page: number, pageSize: number}): Promise<StrapiResponse<Text[]>> => {
         const query = qs.stringify({
             filters: {
                 title: {
@@ -31,6 +32,10 @@ export const textApi = {
                         $contains: params?.authorName,
                     },
                 },
+            },
+            pagination: {
+                page: pagination?.page || 1,
+                pageSize: pagination?.pageSize || 12,
             }
         });
         console.log(query);

@@ -4,4 +4,4 @@ FROM python-base AS base
 WORKDIR /app
 COPY . .
 
-CMD ["fastapi", "dev", "router.py"]
+CMD ["fastapi", "run", "router.py"]

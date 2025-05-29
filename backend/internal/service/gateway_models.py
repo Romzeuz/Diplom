@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from pydantic import BaseModel, Field
 
 
@@ -14,4 +16,10 @@ class LinkResponse(BaseModel):
     link: str = Field(title="Ссылка")
 
 
-class LinkStrapiHookModel(BaseModel):
+class StrapiHookModel(BaseModel):
+    event: str = Field(title="Событие", description="Событие, которое вызвало хук")
+    createdAt: str = Field(title="Дата создания",
+                           description="Дата создания события",
+                           examples=["2020-01-10"])
+    model: str = Field(title="Модель", description="Модель, к которой относится событие", examples=["text"])
+    entry: Dict[str, Any] = Field(title="Запись")

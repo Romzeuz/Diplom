@@ -50,8 +50,10 @@ const CollectionPage: React.FC = () => {
                 if (selectedTags.length > 0) params.tags = selectedTags;
 
                 // Предполагаем, что API возвращает метаданные о пагинации
-                const response = await textApi.getTexts({search: params.search,
-                    tags: params.tags});
+                const response = await textApi.getTexts(
+                    {search: params.search, tags: params.tags},
+                    {page: pagination.current, pageSize: pagination.pageSize}
+                );
                 setTexts(response.data);
                 console.log(response);
 
