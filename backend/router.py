@@ -32,3 +32,7 @@ def handle_strapi_hook(hook: StrapiHookModel):
     print(hook.model_dump_json())
     # Здесь можно добавить логику обработки хука
     return {"status": "success", "message": "Hook processed successfully"}
+
+@app.post("/api/links/tnasfas")
+def pupupu():
+    return LinkResponse(text="")
