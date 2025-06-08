@@ -1,133 +1,96 @@
 import React, {useEffect} from 'react';
-import {Row, Col, Card, Button, Typography, Divider} from 'antd';
+import {Row, Col, Card, Button, Typography, Divider, Image} from 'antd';
 import {Link} from 'react-router-dom';
 import {aiApi} from "../api/aiClient";
+import './HomePage.css';
+
+import ImagePane, {AlignEnum} from "../components/ImagePane";
+import Panel from "antd/es/splitter/Panel";
 
 const {Title, Paragraph} = Typography;
 
 const HomePage: React.FC = () => {
     return (
-        <div className="home-page">
-            <Row gutter={[24, 24]} style={{marginTop: 24}}>
-                <Col span={24}>
-                    <Title level={1}>Проект Райбекас</Title>
-                    <Paragraph>
-                        Исследование и сохранение литературного наследия с использованием
-                        современных технологий и искусственного интеллекта.
-                    </Paragraph>
-                </Col>
-
-                {/* Превью блок "О Райбекасе" */}
-                <Col xs={24} md={8}>
-                    <Card
-                        title="О Райбекасе"
-                        variant="borderless"
-                        hoverable
-                        style={{height: 300}}
-                    >
-                        <Paragraph>
-                            Биография, основные работы и вклад в литературу.
-                            Интерактивный таймлайн жизни и творчества.
+        <div className="home-page" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <Row gutter={[24, 24]} style={{marginTop: 48, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
+                <ImagePane ImageComponent={<Image src={"/text-raibekas.png"} preview={false} height={450}/>}
+                           HeaderComponent={<Title style={{fontSize: 96}}>Цифровой<br/>Райбекас</Title>}
+                           TextCardComponent={
+                               <Paragraph className="pane" style={{width: 500}}>
+                                   Интерактивный корпус философских работ, включающий книги,
+                                   лекции и редкие статьи. Платформа также содержит исследования
+                                   о философе и предлагает интерактивного чат-бота,
+                                   способного объяснять сложные идеи простым языком.
+                                   Это пространство диалога между прошлым и настоящим,
+                                   академией и личным опытом, философией и культурой.
+                               </Paragraph>
+                           }
+                           HeaderMargin={-100}
+                />
+            </Row>
+            <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-end'}}>
+                <ImagePane
+                    ImageComponent={<Image src={"/neuro-raibekas.png"} preview={false} height={450}/>}
+                    HeaderComponent={<Title level={3}>Райбекас: мысль и отражение</Title>}
+                    TextCardComponent={
+                        <Paragraph className="pane" style={{width: 350}}>
+                            Собрание авторских работ Альберта Яновича и публикаций
+                            о нём — от академических исследований до личных воспоминаний.
+                            Это пространство диалога между его идеями и их отражением в умах других.
                         </Paragraph>
-                        <Link to="/about-raibekas">
-                            <Button variant="outlined" type="default">Подробнее</Button>
-                        </Link>
-                    </Card>
-                </Col>
-
-                {/* Превью блок "Коллекция" */}
-                <Col xs={24} md={8}>
-                    <Card
-                        title="Коллекция"
-                        variant="borderless"
-                        hoverable
-                        style={{height: 300}}
-                    >
-                        <Paragraph>
-                            Архив текстов и произведений с удобной навигацией,
-                            возможностью поиска и фильтрации по категориям.
+                    }
+                    HeaderMargin={-70}
+                    Align={AlignEnum.RIGHT}
+                    ParagraphMargin={-100}
+                    TextAlign="bottom"
+                    TextMargin={-40}
+                    LinkHref={"/collection"}
+                />
+            </Row>
+            <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
+                <ImagePane
+                    ImageComponent={<Image
+                        height={360}
+                        width={580}
+                        preview={false}
+                    />}
+                    HeaderComponent={<Title level={3}>Путь философа</Title>}
+                    TextCardComponent={
+                        <Paragraph className="pane" style={{width: 350}}>
+                            Загляните на страницу с таймлайном, чтобы увидеть,
+                            как складывалась жизнь Альберта Яновича — в датах,
+                            событиях и фотографиях. Это простой и наглядный способ
+                            познакомиться с его судьбой и философским путём.
                         </Paragraph>
-                        <Link to="/collection">
-                            <Button type="default" variant="outlined">К коллекции</Button>
-                        </Link>
-                    </Card>
-                </Col>
-
-                {/* Превью блок "О проекте" */}
-                <Col xs={24} md={8}>
-                    <Card
-                        title="О проекте"
-                        variant="borderless"
-                        hoverable
-                        style={{height: 300}}
-                    >
-                        <Paragraph>
-                            Цели проекта, используемые технологии и информация о команде,
-                            партнёрах и благодарностях.
+                    }
+                    HeaderMargin={-100}
+                    ParagraphMargin={-100}
+                    TextAlign="bottom"
+                    TextMargin={-150}
+                    LinkHref={"/about-raibekas"}
+                />
+            </Row>
+            <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-end', marginBottom: 96}}>
+                <ImagePane
+                    ImageComponent={<Image preview={false} height={450} width={680}/>}
+                    HeaderComponent={<Title level={3}>О проекте</Title>}
+                    TextCardComponent={
+                        <Paragraph className="pane" style={{width: 350}}>
+                            На странице «О проекте» представлена информация
+                            о целях, идеях и концепции платформы, посвящённой
+                            наследию Альберта Яновича Райбекаса.
                         </Paragraph>
-                        <Link to="/about-project">
-                            <Button type="default" variant="outlined">Узнать больше</Button>
-                        </Link>
-                    </Card>
-                </Col>
-
-                <Col span={24}>
-                    <Divider/>
-                    <Row gutter={[24, 24]} style={{marginTop: 24}}>
-                        <Col span={8}>
-                            <Card
-                                variant="borderless"
-                                style={{height: 300}}
-                            >
-                                {/* Photo of Raibekas */}
-                                Фото райбекаса (можно без карточки в целом)
-                            </Card>
-                        </Col>
-
-                        <Col span={16}>
-                            <Title level={2}>Информация о проекте</Title>
-                            <Paragraph>
-                                Проект посвящен сохранению и популяризации литературного наследия Райбекаса.
-                                Мы используем современные технологии для создания интерактивного архива
-                                текстов с возможностями искусственного интеллекта для углубленного анализа.
-                            </Paragraph>
-                        </Col>
-                    </Row>
-
-                    <Row gutter={[24, 24]} style={{marginTop: 24}}>
-                        <Col span={12}>
-                            <Title level={3}>Технологии</Title>
-                            <Paragraph>
-                                Проект построен с использованием React, TypeScript, AntDesign для фронтенда,
-                                Strapi CMS для управления контентом и FastAPI для AI-функциональности.
-                            </Paragraph>
-                        </Col>
-
-                        <Col span={12}>
-                            <Card
-                                variant="borderless"
-                                style={{height: 300}}
-                            >
-                                {/* Photo of Technologies */}
-                                Фото технологий (можно без карточки в целом)
-                            </Card>
-                        </Col>
-                    </Row>
-
-                    <Title level={3}>Команда</Title>
-                    <Row gutter={[16, 16]}>
-                        {/* Здесь может быть компонент с карточками членов команды */}
-                        <Col span={24}>
-                            <Paragraph>
-                                Над проектом работает команда разработчиков, исследователей литературы и экспертов.
-                            </Paragraph>
-                        </Col>
-                    </Row>
-                </Col>
+                    }
+                    HeaderMargin={-70}
+                    Align={AlignEnum.RIGHT}
+                    ParagraphMargin={-120}
+                    TextAlign="bottom"
+                    TextMargin={-280}
+                    LinkHref={"/chat"}
+                />
             </Row>
         </div>
     );
 };
 
 export default HomePage;
-
