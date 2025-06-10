@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Row, Col} from 'antd';
 import {Link} from "react-router-dom";
 
@@ -31,16 +31,44 @@ const ImagePane: React.FC<ImagePaneProps> = ({
                                                  LinkHref,
                                              }) => {
     const isLeft = Align === AlignEnum.LEFT;
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isTablet, setIsTablet] = useState(window.innerWidth > 768 && window.innerWidth <= 1024);
+
+    // Определяем тип устройства
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            setIsMobile(width <= 768);
+            setIsTablet(width > 768 && width <= 1024);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const pane =
-        <Row gutter={[24, 24]} align="middle" justify="center">
+        <Row gutter={[16, 16]} align="middle" justify="center" style={{
+            flexWrap: 'wrap',
+            margin: 0,
+            width: '100%'
+        }}>
             {isLeft && (
-                <Col style={{marginRight: 48}}>{ImageComponent}</Col>
+                <Col xs={24} md={11} lg={10} style={{
+                    textAlign: 'center',
+                    marginBottom: isMobile ? '20px' : '0',
+                    padding: isMobile ? '0 8px' : '0 16px'
+                }}>
+                    {ImageComponent}
+                </Col>
             )}
             <Col
+                xs={24}
+                md={isLeft ? 11 : 11}
+                lg={isLeft ? 12 : 10}
                 style={{
                     zIndex: 1,
                     position: 'relative',
-                    padding: '8px 0',
+                    padding: isMobile ? '16px 8px' : '8px 16px',
                     borderRadius: 8,
                     display: 'flex',
                     flexDirection: 'column',
@@ -49,32 +77,41 @@ const ImagePane: React.FC<ImagePaneProps> = ({
                 }}
             >
                 <div style={{
-                    marginTop: TextAlign === 'bottom' ? 0 : TextAlign === 'top' ? TextMargin : 0,
-                    marginBottom: TextAlign === 'top' ? 0 : TextAlign === 'bottom' ? TextMargin : 0,
+                    marginTop: isMobile || isTablet ? 0 : (TextAlign === 'bottom' ? 0 : TextAlign === 'top' ? TextMargin : 0),
+                    marginBottom: isMobile || isTablet ? 0 : (TextAlign === 'top' ? 0 : TextAlign === 'bottom' ? TextMargin : 0),
                 }}>
                     <div style={{
-                        marginLeft: isLeft ? HeaderMargin : 0,
-                        marginRight: !isLeft ? HeaderMargin : 0
+                        marginLeft: isMobile || isTablet ? 0 : (isLeft ? Math.min(0, HeaderMargin) : 0),
+                        marginRight: isMobile || isTablet ? 0 : (!isLeft ? Math.min(0, HeaderMargin) : 0),
+                        textAlign: isMobile ? 'center' : 'inherit'
                     }}>
                         {HeaderComponent}
                     </div>
                     <div style={{
-                        marginLeft: isLeft ? ParagraphMargin : 0,
-                        marginRight: !isLeft ? ParagraphMargin : 0
+                        marginLeft: isMobile || isTablet ? 0 : (isLeft ? Math.min(0, ParagraphMargin) : 0),
+                        marginRight: isMobile || isTablet ? 0 : (!isLeft ? Math.min(0, ParagraphMargin) : 0),
+                        textAlign: isMobile ? 'justify' : 'inherit',
+                        wordWrap: 'break-word'
                     }}>
                         {TextCardComponent}
                     </div>
                 </div>
             </Col>
             {!isLeft && (
-                <Col style={{marginLeft: 48}}>{ImageComponent}</Col>
+                <Col xs={24} md={11} lg={10} style={{
+                    textAlign: 'center',
+                    marginTop: isMobile ? '20px' : '0',
+                    padding: isMobile ? '0 8px' : '0 16px'
+                }}>
+                    {ImageComponent}
+                </Col>
             )}
         </Row>
     return (
-        <>
+        <div style={{ width: '100%', overflow: 'hidden' }}>
             {(LinkHref !== undefined) && (<Link to={LinkHref}>{pane}</Link>)}
             {(LinkHref === undefined) && pane}
-        </>
+        </div>
     );
 }
 
