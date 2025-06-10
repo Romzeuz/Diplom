@@ -5,7 +5,7 @@ class Admin {}
 class Nginx {
 проксирует запросы
 }
-class Gateway {
+class Router {
 Обрабатывает HTTP запросы от других частей проекта
 void ConnectToBroker()
 void SendMessage(subject string, payload any)
@@ -25,6 +25,10 @@ void SendMessage(subject string, payload any)
 class Frontend {}
 class Database {}
 class Strapi {}
+note "В дальнейшем можно написать \nдля страпи прямой проброс хуков в брокер" as N1
+N1 .. Strapi
+N1 .. Router
+N1 .. Adapter
 class Broker {
 Херня для проброса данных между микросервисами
 }
@@ -35,22 +39,26 @@ void ListenSubject(subject string)
 void PublishDataToStrapi(data any)
 }
 Strapi --> Database : Взаимодействие с БД
-Frontend <--> Gateway : Запросы на получение подсказок от нейронок
-Frontend <--> Gateway : Websocket (для чата с ИИ или тому подобного)?
+Frontend <--> Router : Запросы на получение подсказок от нейронок
+Frontend <--> Router : Websocket (для чата с ИИ или тому подобного)?
 Frontend --> Strapi : Запросы на получение книжек и т.д.
 User1 --> Nginx : Заходит на сайт
 User2 --> Nginx : Заходит на сайт
 Admin --> Nginx : Заходит в админку
 Nginx --> Frontend : Если пользователь запрашивает ссылки без префикса
-Nginx --> Gateway : Если префикс /api
+Nginx --> Router : Если префикс /api
 Nginx --> Strapi : Если префикс admin
-Strapi --> Gateway : Триггер на изменение данных (перегенерируем ИИ тэги)
-Gateway --> Broker : Запросы к иишке
-Broker --> Gateway : Ответы от иишки
+Strapi --> Router : Триггер на изменение данных (перегенерируем ИИ тэги)
+Router --> Broker : Запросы к иишке
+Broker --> Router : Ответы от иишки
 Broker --> LinkGenerator : Запросы к генератору ссылок
 LinkGenerator --> Broker : Ответы от генератора ссылок
 Broker --> TagGenerator : Запуск триггера на разметку данных (можно вообще отделить эту штуку и сделать отдельным от брокера сервисом)
 TagGenerator --> Broker : Данные о разметке
 Broker --> Adapter : Данные о разметке
 Adapter --> Strapi : Изменения в БД
+
+note "Чисто в теории, фронт может \nтоже общаться напрямую с сервисами через gRPC" as N2
+N2 .. Frontend
+N2 .. Router
 @enduml

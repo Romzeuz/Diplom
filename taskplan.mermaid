@@ -1,0 +1,39 @@
+---
+title: Последовательность работы
+---
+%%{init: {'theme':'base'}}%%
+gitGraph
+    commit id: "Текущее состояние"
+    branch frontend
+    checkout frontend
+    commit id: "Сверстать футер"
+    commit id: "Сверстать карточки"
+
+    branch update-markdown-renderer
+    checkout update-markdown-renderer
+    commit id: "Переписать markdown рендерер"
+    checkout frontend
+    merge update-markdown-renderer
+    checkout main
+    branch backend
+    checkout backend
+    commit id: "Ключевые слова в БД"
+    checkout frontend
+    merge backend
+    commit id: "Сверстать коллекцию"
+    commit id: "Поиск по ключевым словам"
+    checkout main
+    merge frontend
+
+    checkout backend
+    merge main id: "Обновление фронтенда"
+    commit id: "Хук для Strapi"
+    branch ai
+    checkout ai
+    commit id: "Развернутая нейронка"
+    commit id: "Подтянуть события от роутера"
+    commit id: "Выгрузка размеченных тегов"
+    checkout backend
+    merge ai
+    checkout main
+    merge backend id: "Обновление бэкенда"
