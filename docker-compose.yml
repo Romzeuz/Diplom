@@ -2,9 +2,13 @@ version: "3"
 services:
   strapi:
     container_name: strapi
-    image: strapi-build
+    image: node:22-alpine3.20
     restart: unless-stopped
     env_file: .env
+    volumes:
+      - ./strapi/project:/app/project
+    working_dir: /app/project
+    entrypoint: /app/project/entrypoint.sh
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
       DATABASE_HOST: strapiDB
@@ -16,8 +20,6 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
-    volumes:
-      - ./strapi/project:/app/project
     ports:
       - "1337:1337"
     networks:

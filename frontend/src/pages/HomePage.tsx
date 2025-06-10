@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
                     ParagraphMargin={-120}
                     TextAlign="bottom"
                     TextMargin={-280}
-                    LinkHref={"/chat"}
+                    LinkHref={"/about-project"}
                 />
             </Row>
         </div>
