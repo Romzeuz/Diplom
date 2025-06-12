@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
-import {Row, Col, Card, Button, Typography, Divider, Image} from 'antd';
-import {Link} from 'react-router-dom';
+import {Row, Typography, Image} from 'antd';
 import {aiApi} from "../api/aiClient";
 import './HomePage.css';
 
 import ImagePane, {AlignEnum} from "../components/ImagePane";
-import Panel from "antd/es/splitter/Panel";
 
 const {Title, Paragraph} = Typography;
 
@@ -13,25 +11,34 @@ const HomePage: React.FC = () => {
     return (
         <div className="home-page" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <Row gutter={[24, 24]} style={{marginTop: 48, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
-                <ImagePane ImageComponent={<Image src={"/text-raibekas.png"} preview={false} style={{
-                    height: 'auto',
-                    maxHeight: 450,
-                    width: 'auto',
-                    maxWidth: '100%',
-                    objectFit: 'contain'
-                }}/>}
-                           HeaderComponent={<Title style={{fontSize: 'clamp(40px, 4vw, 96px)'}}>Цифровой<br/>Райбекас</Title>}
-                           TextCardComponent={
-                               <Paragraph className="pane" style={{maxWidth: '100%'}}>
-                                   Интерактивный корпус философских работ, включающий книги,
-                                   лекции и редкие статьи. Платформа также содержит исследования
-                                   о философе и предлагает интерактивного чат-бота,
-                                   способного объяснять сложные идеи простым языком.
-                                   Это пространство диалога между прошлым и настоящим,
-                                   академией и личным опытом, философией и культурой.
-                               </Paragraph>
-                           }
-                           HeaderMargin={-100}
+                <ImagePane
+                    ImageComponent={<Image src={"/text-raibekas.png"} preview={false} style={{
+                        height: 'auto',
+                        maxHeight: 450,
+                        width: 'auto',
+                        maxWidth: '100%',
+                        objectFit: 'contain'
+                    }}/>}
+                    HeaderComponent={<Title
+                        style={{
+                            fontSize: 'clamp(40px, 6vw, 120px)',
+                            fontFamily: "IBM Plex Sans",
+                            fontWeight: '500',
+                    }}>Цифровой<br/>Райбекас</Title>}
+                    TextCardComponent={
+                        <Paragraph className="pane" style={{maxWidth: '100%'}}>
+                            Интерактивный корпус философских работ, включающий книги,
+                            лекции и редкие статьи. Платформа также содержит исследования
+                            о философе и предлагает интерактивного чат-бота,
+                            способного объяснять сложные идеи простым языком.
+                            Это пространство диалога между прошлым и настоящим,
+                            академией и личным опытом, философией и культурой.
+                        </Paragraph>
+                    }
+                    HeaderOverlapX={50}
+                    HeaderOverlapY={70}
+                    TextOverlapX={10}
+                    maxTextWidth={"clamp(100px, 40%, 700px)"}
                 />
             </Row>
             <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-end'}}>
@@ -51,12 +58,9 @@ const HomePage: React.FC = () => {
                             Это пространство диалога между его идеями и их отражением в умах других.
                         </Paragraph>
                     }
-                    HeaderMargin={-70}
                     Align={AlignEnum.RIGHT}
-                    ParagraphMargin={-100}
-                    TextAlign="bottom"
-                    TextMargin={-40}
                     LinkHref={"/collection"}
+                    maxTextWidth={"35%"}
                 />
             </Row>
             <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
@@ -70,6 +74,7 @@ const HomePage: React.FC = () => {
                             maxWidth: '100%',
                             objectFit: 'contain'
                         }}
+                        src={"/neuro-raibekas.png"}
                     />}
                     HeaderComponent={<Title level={3}>Путь философа</Title>}
                     TextCardComponent={
@@ -80,22 +85,24 @@ const HomePage: React.FC = () => {
                             познакомиться с его судьбой и философским путём.
                         </Paragraph>
                     }
-                    HeaderMargin={-40}
-                    ParagraphMargin={-40}
-                    TextAlign="bottom"
-                    TextMargin={-20}
                     LinkHref={"/about-raibekas"}
+                    maxTextWidth={"35%"}
                 />
             </Row>
-            <Row gutter={[24, 24]} style={{marginTop: 120, width: '100%', maxWidth: 1440, justifyContent: 'flex-end', marginBottom: 96}}>
+            <Row gutter={[24, 24]}
+                 style={{marginTop: 120, width: '100%', maxWidth: 1440, justifyContent: 'flex-end', marginBottom: 96}}>
                 <ImagePane
-                    ImageComponent={<Image preview={false} style={{
-                        height: 'auto',
-                        maxHeight: 450,
-                        width: 'auto',
-                        maxWidth: '100%',
-                        objectFit: 'contain'
-                    }}/>}
+                    ImageComponent={<Image
+                        preview={false}
+                        style={{
+                            height: 'auto',
+                            maxHeight: 450,
+                            width: 'auto',
+                            maxWidth: '100%',
+                            objectFit: 'contain'
+                        }}
+                        src={"/neuro-raibekas.png"}
+                    />}
                     HeaderComponent={<Title level={3}>О проекте</Title>}
                     TextCardComponent={
                         <Paragraph className="pane" style={{maxWidth: '100%'}}>
@@ -104,12 +111,11 @@ const HomePage: React.FC = () => {
                             наследию Альберта Яновича Райбекаса.
                         </Paragraph>
                     }
-                    HeaderMargin={-40}
                     Align={AlignEnum.RIGHT}
-                    ParagraphMargin={-40}
-                    TextAlign="bottom"
-                    TextMargin={-20}
                     LinkHref={"/about-project"}
+                    maxTextWidth={"35%"}
+                    TextOverlapY={250}
+                    HeaderOverlapY={250}
                 />
             </Row>
         </div>

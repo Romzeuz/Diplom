@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import {Row, Col} from 'antd';
-import {Link} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 export enum AlignEnum {
     LEFT = 'left',
@@ -12,11 +10,20 @@ interface ImagePaneProps {
     HeaderComponent: React.ReactNode;
     TextCardComponent: React.ReactNode;
     Align?: AlignEnum;
-    HeaderMargin?: number;
-    ParagraphMargin?: number;
-    TextAlign?: 'bottom' | 'top' | 'center';
-    TextMargin?: number;
+    HeaderMargin?: number; // Вертикальный отступ для заголовка внутри текстового блока (до применения overlap)
+    ParagraphMargin?: number; // Вертикальный отступ для параграфа от заголовка
+    TextAlign?: 'left' | 'center' | 'right' | 'justify';
+    TextMargin?: number; // Базовый горизонтальный отступ всего текстового блока от изображения (до наложения)
     LinkHref?: string;
+
+    // Пропсы для контроля наложения заголовка
+    HeaderOverlapX?: number; // Горизонтальное "заползание" заголовка на изображение
+    HeaderOverlapY?: number; // Вертикальное смещение заголовка (относительно его начальной позиции)
+
+    // Пропсы для контроля наложения основного текста
+    TextOverlapX?: number; // Горизонтальное "заползание" основного текста на изображение
+    TextOverlapY?: number; // Вертикальное смещение основного текста (относительно его начальной позиции)
+    maxTextWidth?: string | number; // Новое свойство для максимальной ширины текста
 }
 
 const ImagePane: React.FC<ImagePaneProps> = ({
@@ -24,95 +31,120 @@ const ImagePane: React.FC<ImagePaneProps> = ({
                                                  HeaderComponent,
                                                  TextCardComponent,
                                                  Align = AlignEnum.LEFT,
-                                                 HeaderMargin = -40,
-                                                 ParagraphMargin = -24,
-                                                 TextAlign = 'center',
+                                                 HeaderMargin = 0,
+                                                 ParagraphMargin = 30, // Изменено с 10 на 15 для увеличения зазора
+                                                 TextAlign = 'left',
                                                  TextMargin = 0,
                                                  LinkHref,
+                                                 HeaderOverlapX = 30,
+                                                 HeaderOverlapY = 50,
+                                                 TextOverlapX = 30,
+                                                 TextOverlapY = 20, // Пример значения, можно настроить
+                                                 maxTextWidth, // Получаем новое свойство
                                              }) => {
-    const isLeft = Align === AlignEnum.LEFT;
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    const [isTablet, setIsTablet] = useState(window.innerWidth > 768 && window.innerWidth <= 1024);
+    const [isMobile, setIsMobile] = useState(false);
 
-    // Определяем тип устройства
     useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth;
-            setIsMobile(width <= 768);
-            setIsTablet(width > 768 && width <= 1024);
+        const checkIsMobile = () => {
+            setIsMobile(window.innerWidth < 1024); // Примерная точка перелома для мобильных
         };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        checkIsMobile(); // Первоначальная проверка
+        window.addEventListener('resize', checkIsMobile);
+        return () => window.removeEventListener('resize', checkIsMobile);
     }, []);
 
-    const pane =
-        <Row gutter={[16, 16]} align="middle" justify="center" style={{
-            flexWrap: 'wrap',
-            margin: 0,
-            width: '100%'
-        }}>
-            {isLeft && (
-                <Col xs={24} md={11} lg={10} style={{
-                    textAlign: 'center',
-                    marginBottom: isMobile ? '20px' : '0',
-                    padding: isMobile ? '0 8px' : '0 16px'
-                }}>
-                    {ImageComponent}
-                </Col>
-            )}
-            <Col
-                xs={24}
-                md={isLeft ? 11 : 11}
-                lg={isLeft ? 12 : 10}
-                style={{
-                    zIndex: 1,
-                    position: 'relative',
-                    padding: isMobile ? '16px 8px' : '8px 16px',
-                    borderRadius: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: TextAlign === 'bottom' ? 'flex-end' : TextAlign === 'top' ? 'flex-start' : 'center',
-                    height: '100%',
-                }}
-            >
-                <div style={{
-                    marginTop: isMobile || isTablet ? 0 : (TextAlign === 'bottom' ? 0 : TextAlign === 'top' ? TextMargin : 0),
-                    marginBottom: isMobile || isTablet ? 0 : (TextAlign === 'top' ? 0 : TextAlign === 'bottom' ? TextMargin : 0),
-                }}>
-                    <div style={{
-                        marginLeft: isMobile || isTablet ? 0 : (isLeft ? Math.min(0, HeaderMargin) : 0),
-                        marginRight: isMobile || isTablet ? 0 : (!isLeft ? Math.min(0, HeaderMargin) : 0),
-                        textAlign: isMobile ? 'center' : 'inherit'
-                    }}>
-                        {HeaderComponent}
-                    </div>
-                    <div style={{
-                        marginLeft: isMobile || isTablet ? 0 : (isLeft ? Math.min(0, ParagraphMargin) : 0),
-                        marginRight: isMobile || isTablet ? 0 : (!isLeft ? Math.min(0, ParagraphMargin) : 0),
-                        textAlign: isMobile ? 'justify' : 'inherit',
-                        wordWrap: 'break-word'
-                    }}>
-                        {TextCardComponent}
-                    </div>
-                </div>
-            </Col>
-            {!isLeft && (
-                <Col xs={24} md={11} lg={10} style={{
-                    textAlign: 'center',
-                    marginTop: isMobile ? '20px' : '0',
-                    padding: isMobile ? '0 8px' : '0 16px'
-                }}>
-                    {ImageComponent}
-                </Col>
-            )}
-        </Row>
+    const isLeft = Align === AlignEnum.LEFT;
+
+    const handlePaneClick = () => {
+        if (LinkHref) {
+            window.open(LinkHref, '_blank', 'noopener noreferrer');
+        }
+    };
+
+    const paneStyle: React.CSSProperties = {
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : (isLeft ? 'row' : 'row-reverse'),
+        position: 'relative',
+        cursor: LinkHref ? 'pointer' : 'default',
+    };
+
+    const imageContainerStyle: React.CSSProperties = {
+        flexShrink: 0,
+        position: 'relative',
+        width: isMobile ? '90%' : 'auto', // Пример: изображение занимает большую часть ширины на мобильном
+        marginBottom: isMobile ? '20px' : '0', // Отступ снизу для изображения на мобильном
+        ...(isMobile && {
+            display: 'flex',
+            justifyContent: 'center',
+        }),
+        alignItems: isMobile ? 'center' : 'flex-start',
+    };
+
+    const textBlockStyle: React.CSSProperties = {
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: isMobile ? 'left' : TextAlign, // Центрируем текст на мобильном
+        position: 'relative',
+        zIndex: 1,
+        ...(isMobile ? {
+            marginLeft: 0,
+            marginRight: 0,
+            width: '90%', // Текстовый блок также занимает большую часть ширины
+            ...(maxTextWidth && { maxWidth: typeof maxTextWidth === 'number' ? `${maxTextWidth}px` : maxTextWidth }),
+        } : {
+            ...(isLeft
+                ? { marginLeft: `${TextMargin}px` }
+                : { marginRight: `${TextMargin}px` }),
+            ...(maxTextWidth && { maxWidth: typeof maxTextWidth === 'number' ? `${maxTextWidth}px` : maxTextWidth }),
+        })
+        // Удален transform отсюда, он теперь применяется к отдельным элементам (заголовок/параграф)
+    };
+
+    const headerWrapperStyle: React.CSSProperties = {
+        marginTop: `${HeaderMargin}px`,
+        transform: isMobile ? 'none' : `translate(${isLeft ? -(HeaderOverlapX ?? 0) : (HeaderOverlapX ?? 0)}px, ${HeaderOverlapY ?? 0}px)`,
+        width: '100%', // Заголовок занимает всю ширину текстового блока
+        position: 'relative', // Для корректного zIndex, если потребуется
+        zIndex: 2, // Заголовок потенциально выше параграфа в контексте наложения
+        alignItems: isMobile ? 'center' : 'flex-start',
+    };
+
+    const paragraphWrapperStyle: React.CSSProperties = {
+        marginTop: `${ParagraphMargin}px`,
+        transform: isMobile ? 'none' : `translate(${isLeft ? -(TextOverlapX ?? 0) : (TextOverlapX ?? 0)}px, ${TextOverlapY ?? 0}px)`,
+        width: '100%', // Параграф занимает всю ширину текстового блока
+        position: 'relative',
+        zIndex: 1,
+    };
+
     return (
-        <div style={{ width: '100%', overflow: 'hidden' }}>
-            {(LinkHref !== undefined) && (<Link to={LinkHref}>{pane}</Link>)}
-            {(LinkHref === undefined) && pane}
+        <div
+            style={paneStyle}
+            onClick={handlePaneClick}
+            role={LinkHref ? "link" : undefined}
+            tabIndex={LinkHref ? 0 : undefined}
+            onKeyDown={(e) => {
+                if ((e.key === 'Enter' || e.key === ' ') && LinkHref) {
+                    e.preventDefault();
+                    handlePaneClick();
+                }
+            }}
+            // aria-label можно добавить, если содержимое не описывает ссылку достаточно
+            aria-label={LinkHref ? "Подробнее" : undefined}
+        >
+            <div style={imageContainerStyle}>
+                {ImageComponent}
+            </div>
+            <div style={textBlockStyle}>
+                <div style={headerWrapperStyle}>
+                    {HeaderComponent}
+                </div>
+                <div style={paragraphWrapperStyle}>
+                    {TextCardComponent}
+                </div>
+            </div>
         </div>
     );
-}
+};
 
 export default ImagePane;
