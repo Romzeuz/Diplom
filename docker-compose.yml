@@ -2,13 +2,15 @@ version: "3"
 services:
   strapi:
     container_name: strapi
-    image: node:22-alpine3.20
+    build:
+      dockerfile: Dockerfile
+      context: .
     restart: unless-stopped
     env_file: .env
     volumes:
-      - ./strapi/project:/app/project
-    working_dir: /app/project
-    entrypoint: /app/project/entrypoint.sh
+      - ./strapi/project:/app/project:rw
+#    working_dir: /app/project
+#    entrypoint: ./entrypoint.sh
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
       DATABASE_HOST: strapiDB

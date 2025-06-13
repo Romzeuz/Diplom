@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-cd "/app/project"
+cd /app/project
 
 if [ ! -d "node_modules" ]; then
   echo "node_modules не найдена, устанавливаю зависимости..."
