@@ -59,7 +59,7 @@ export const textApi = {
 
 export const authorApi = {
     getRaibekasInfo: async (): Promise<Author> => {
-        const response = await strapiClient.get('/authors', {params: {"filters[name][$eq]": "Альберт Янович Райбекас", populate: "*"}});
+        const response = await strapiClient.get('/authors', {params: {"filters[name][$eq]": "Райбекас Альберт Янович", populate: "*"}});
         console.log(response.data);
         const data = response.data.data[0];
         return data;
@@ -74,6 +74,7 @@ export const authorApi = {
                     },
                 },
             },
+            sort: 'date',
         })
         const response = await strapiClient.get(`/timelines?${params}`);
         return response.data.data;

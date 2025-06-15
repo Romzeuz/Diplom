@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Col, Image, Row, Spin, Tabs, Timeline, Typography} from 'antd';
-import {ClockCircleOutlined} from '@ant-design/icons';
-import {authorApi, mediaApi, textApi} from '../api/strapiClient';
-import {Author, TimelineEvent} from '../types';
+import {Spin, Timeline, Typography} from 'antd';
+import {authorApi, textApi} from '../api/strapiClient';
+import {Author} from '../types';
+import "./AboutRaibekasPage.css"
+import { API_CONFIG } from '../api/config';
+import {SaveFilled} from "@ant-design/icons"; // Импорт API_CONFIG
 
 const {Title, Paragraph} = Typography;
-const {TabPane} = Tabs;
 
 const AboutRaibekasPage: React.FC = () => {
     const [author, setAuthor] = useState<Author | null>(null);
@@ -45,65 +46,54 @@ const AboutRaibekasPage: React.FC = () => {
 
     return (
         <div className="about-raibekas-page">
-            <Title level={1}>О Райбекасе</Title>
-
-            <Tabs defaultActiveKey="biography">
-                <TabPane tab="Биография" key="biography">
-                    <Row gutter={[24, 24]}>
-                        <Col span={24} md={16}>
-                            <Paragraph>{author.bio}</Paragraph>
-                        </Col>
-                        <Col span={24} md={8}>
-                            {/* Здесь может быть фото автора */}
-                            <Card cover={
-                                <img
-                                    alt="Фото автора"
-                                    src={mediaApi.getMediaUrl(author.photo.url)}
-                                    style={{width: '100%', height: 'auto'}}
-                                />
-                            }>
-                                Фото Альберта Яновича
-                            </Card>
-                        </Col>
-                    </Row>
-
-                    <Title level={3} style={{marginTop: 32}}>Основные этапы жизни и творчества</Title>
-                    <Timeline mode="alternate">
-                        {author.timeline.map((event: TimelineEvent) => (
-                            <Timeline.Item
-                                key={event.id}
-                                dot={Date.parse(event.date) % 10 === 0 ?
-                                    <ClockCircleOutlined style={{fontSize: '16px'}}/> : undefined}
-                            >
-                                <div className="timeline-event">
-                                    <h4>{event.date} - {event.caption}</h4>
-                                    <p>{event.description}</p>
-                                    {event.media?.url && <Image src={mediaApi.getMediaUrl(event.media?.url)}/>}
-                                </div>
-                            </Timeline.Item>
-                        ))}
-                    </Timeline>
-                </TabPane>
-
-                <TabPane tab="Тексты Райбекаса" key="texts">
-                    <Paragraph>Основные произведения и тексты автора.</Paragraph>
-                    <Row gutter={[24, 24]}>
-                        {author.texts?.map((text) => (
-                            <Col span={24} md={12} key={text.id}>
-                                {/*<TextCard text={text}/>*/}
-                                <Card
-                                    cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}/>}
-                                    style={{marginBottom: 16}}>{text.title}</Card>
-                            </Col>
-                        ))}
-                    </Row>
-                </TabPane>
-
-                <TabPane tab="О Райбекасе" key="about">
-                    <Paragraph>Критика, статьи и материалы о Райбекасе.</Paragraph>
-                    {/* Здесь могут быть критические статьи и материалы */}
-                </TabPane>
-            </Tabs>
+            <Title className="raibekas-title">Альберт Янович Райбекас</Title>
+            <div className="paragraphs-container">
+                <Paragraph className="raibekas-paragraph paragraph-left">
+                    выдающийся философ, учёный и педагог, основатель философской школы в Красноярске и один из самых
+                    оригинальных продолжателей диалектического материализма в постсоветской России. Несмотря на трудное
+                    детство и репрессии в семье, он получил блестящее образование, объединив философское и
+                    естественнонаучное мышление, и стал автором глубокой онтологической концепции, изложенной в книге
+                    «Вещь,
+                    свойство, отношение», которая до сих пор актуальна и цитируема.
+                </Paragraph>
+                <Paragraph className="raibekas-paragraph paragraph-right">
+                    Он стал первым заведующим кафедрой философии в Красноярском университете, создал философскую школу,
+                    организовал диссертационный совет и развивал философское сообщество в регионе. Райбекас был не
+                    только
+                    мыслителем, но и человеком выдающихся личных качеств: мастер спорта по самбо, интеллигент, душа
+                    компании
+                    и верный друг. Его философия сочетала строгость и глубину, а стиль мышления, который он оставил
+                    после
+                    себя, и сегодня вдохновляет новое поколение исследователей.
+                </Paragraph>
+            </div>
+            <Timeline
+                mode="alternate"
+                className="custom-timeline" // Добавлен класс для кастомных стилей
+                items={author.timeline.map((te, i) => {
+                    const formattedDate = new Date(te.date).toLocaleDateString('ru-RU', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    return {
+                        label: <p>{formattedDate}</p>,
+                        dot: <SaveFilled style={{color: 'black', fontSize: '24px'}}/>,
+                        children: (
+                            <div className="timeline-event">
+                                {te.media && te.media.url && (
+                                    <img
+                                        src={`${API_CONFIG.STRAPI_MEDIA_URL}${te.media.url}`}
+                                        alt={te.caption || 'Timeline image'}
+                                        // style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '16px', marginTop: -40}}
+                                    />
+                                )}
+                                <p>{te.caption}</p>
+                            </div>
+                        ),
+                    };
+                })}
+            />
         </div>
     );
 };
