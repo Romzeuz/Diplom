@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
                     }}/>}
                     HeaderComponent={<Title
                         style={{
-                            fontSize: 'clamp(40px, 6vw, 120px)',
+                            fontSize: 'clamp(60px, 6vw, 120px)',
                             fontFamily: "IBM Plex Sans",
                             fontWeight: '500',
                     }}>Цифровой<br/>Райбекас</Title>}
@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
                     HeaderOverlapX={50}
                     HeaderOverlapY={70}
                     TextOverlapX={10}
-                    maxTextWidth={"clamp(100px, 40%, 700px)"}
+                    maxTextWidth={500}
                 />
             </Row>
             <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-end'}}>
@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
                     }
                     Align={AlignEnum.RIGHT}
                     LinkHref={"/collection"}
-                    maxTextWidth={"35%"}
+                    maxTextWidth={"400"}
                 />
             </Row>
             <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
                         </Paragraph>
                     }
                     LinkHref={"/about-raibekas"}
-                    maxTextWidth={"35%"}
+                    maxTextWidth={400}
                 />
             </Row>
             <Row gutter={[24, 24]}
@@ -113,7 +113,7 @@ const HomePage: React.FC = () => {
                     }
                     Align={AlignEnum.RIGHT}
                     LinkHref={"/about-project"}
-                    maxTextWidth={"35%"}
+                    maxTextWidth={400}
                     TextOverlapY={250}
                     HeaderOverlapY={250}
                 />
