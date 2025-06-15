@@ -34,6 +34,10 @@ export interface AdminApiToken extends Struct.CollectionTypeSchema {
         minLength: 1;
       }> &
       Schema.Attribute.DefaultTo<''>;
+    encryptedKey: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     expiresAt: Schema.Attribute.DateTime;
     lastUsedAt: Schema.Attribute.DateTime;
     lifespan: Schema.Attribute.BigInteger;
@@ -400,38 +404,6 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     texts: Schema.Attribute.Relation<'manyToMany', 'api::text.text'>;
     timeline: Schema.Attribute.Relation<'oneToMany', 'api::timeline.timeline'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiNeuroRaibekasNeuroRaibekas extends Struct.SingleTypeSchema {
-  collectionName: 'neuro_raibekases';
-  info: {
-    displayName: 'NeuroRaibekas';
-    pluralName: 'neuro-raibekases';
-    singularName: 'neuro-raibekas';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    Header: Schema.Attribute.String & Schema.Attribute.Required;
-    image: Schema.Attribute.Media<'images' | 'files'> &
-      Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::neuro-raibekas.neuro-raibekas'
-    > &
-      Schema.Attribute.Private;
-    paragraph: Schema.Attribute.Text;
-    publishedAt: Schema.Attribute.DateTime;
-    strong_header: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1040,7 +1012,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::author.author': ApiAuthorAuthor;
-      'api::neuro-raibekas.neuro-raibekas': ApiNeuroRaibekasNeuroRaibekas;
       'api::tag.tag': ApiTagTag;
       'api::text.text': ApiTextText;
       'api::timeline.timeline': ApiTimelineTimeline;
