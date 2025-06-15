@@ -1,0 +1,15 @@
+.text-card {
+    border-radius: 15px;
+    backdrop-filter: blur(30px);
+}
+
+.text-card .ant-card-meta {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.text-card .ant-card-meta-avatar {
+    padding-right: 0; /* Убираем отступ справа по умолчанию */
+    padding-left: 16px; /* Добавляем отступ слева для разделения с деталями */
+    font-weight: 700;
+}

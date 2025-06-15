@@ -10,6 +10,7 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "text": {
       "type": "richtext",
@@ -38,6 +39,23 @@
     },
     "title": {
       "type": "string"
+    },
+    "annotation": {
+      "type": "richtext"
+    },
+    "date": {
+      "type": "date"
+    },
+    "key_words": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::key-word.key-word",
+      "mappedBy": "texts"
+    },
+    "text_tapy": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::text-tapy.text-tapy"
     }
   }
 }

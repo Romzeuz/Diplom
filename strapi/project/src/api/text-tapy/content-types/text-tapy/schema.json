@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "text_tapies",
+  "info": {
+    "singularName": "text-tapy",
+    "pluralName": "text-tapies",
+    "displayName": "TextType"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}

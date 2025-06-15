@@ -1,8 +1,9 @@
 import React from 'react';
-import {Card, Tag} from 'antd';
+import {Card, Tag, Typography} from 'antd';
 import {Link} from 'react-router-dom';
 import {Text} from '../types';
 import {mediaApi} from "../api/strapiClient";
+import './TextCard.css'; // Assuming you have a CSS file for styles
 
 interface TextCardProps {
     text: Text;
@@ -12,9 +13,9 @@ const TextCard: React.FC<TextCardProps> = ({text}) => {
     return (
         <Link to={`/text/${text.documentId}`}>
             <Card
-                hoverable
                 cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}/>}
-                style={{marginBottom: 16}}
+                style={{marginBottom: 16, background: '#ACCFF266'}}
+                className="text-card"
             >
                 <Card.Meta
                     title={text.title}
@@ -26,6 +27,9 @@ const TextCard: React.FC<TextCardProps> = ({text}) => {
                         </span>
                     ))}
                     </>}
+                    avatar={<Typography.Paragraph style={{fontSize: '48px', color: '#1E252C80'}}>
+                        ‘87
+                    </Typography.Paragraph>}
                 />
                 <div style={{marginTop: 8}}>
                     {text.tags.map(tag => (

@@ -410,6 +410,35 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiKeyWordKeyWord extends Struct.CollectionTypeSchema {
+  collectionName: 'key_words';
+  info: {
+    displayName: 'KeyWord';
+    pluralName: 'key-words';
+    singularName: 'key-word';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    keyWord: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::key-word.key-word'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    texts: Schema.Attribute.Relation<'manyToMany', 'api::text.text'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTagTag extends Struct.CollectionTypeSchema {
   collectionName: 'tags';
   info: {
@@ -439,6 +468,35 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiTextTapyTextTapy extends Struct.CollectionTypeSchema {
+  collectionName: 'text_tapies';
+  info: {
+    displayName: 'TextType';
+    pluralName: 'text-tapies';
+    singularName: 'text-tapy';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    color: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::text-tapy.text-tapy'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTextText extends Struct.CollectionTypeSchema {
   collectionName: 'texts';
   info: {
@@ -451,10 +509,16 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    annotation: Schema.Attribute.RichText;
     authors: Schema.Attribute.Relation<'manyToMany', 'api::author.author'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    key_words: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::key-word.key-word'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::text.text'> &
       Schema.Attribute.Private;
@@ -462,6 +526,10 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     text: Schema.Attribute.RichText & Schema.Attribute.Required;
+    text_tapy: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::text-tapy.text-tapy'
+    >;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1012,7 +1080,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::author.author': ApiAuthorAuthor;
+      'api::key-word.key-word': ApiKeyWordKeyWord;
       'api::tag.tag': ApiTagTag;
+      'api::text-tapy.text-tapy': ApiTextTapyTextTapy;
       'api::text.text': ApiTextText;
       'api::timeline.timeline': ApiTimelineTimeline;
       'plugin::content-releases.release': PluginContentReleasesRelease;
