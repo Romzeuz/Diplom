@@ -91,8 +91,6 @@ const CollectionPage: React.FC = () => {
 
     return (
         <div className="collection-page">
-            <h1>Коллекция текстов</h1>
-
             <SearchFilter
                 onSearch={handleSearch}
                 onTagsChange={handleTagsChange}

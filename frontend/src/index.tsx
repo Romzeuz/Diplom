@@ -16,7 +16,7 @@ root.render(
             locale={ru_RU}
             theme={{
                 token: {
-                    colorPrimary: '#1890ff',
+                    colorPrimary: '#ACCFF2',
                     borderRadius: 4,
                     // Добавляем глобальный шрифт здесь
                     fontFamily: '"IBM Plex Sans", "Segoe UI", Roboto, ' +
