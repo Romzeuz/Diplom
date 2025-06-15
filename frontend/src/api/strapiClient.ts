@@ -38,11 +38,8 @@ export const textApi = {
                 pageSize: pagination?.pageSize || 12,
             }
         });
-        console.log(query);
         const response = await strapiClient.get(`/texts?${query}`);
-        console.log(response.data);
         const data = response.data.data;
-        console.log('data', data);
         return {
             data,
             meta: {

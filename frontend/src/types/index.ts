@@ -35,9 +35,14 @@ export interface Text {
     documentId: string;
     title: string;
     text: string;
+    date: string;
+    annotation: string;
     authors: Author[];
     tags: Tag[];
     logo: StrapiMedia;
+    text_type: TextType;
+    text_author_type: TextAuthorType;
+    keyWords: KeyWord[];
 }
 
 export interface Author {
@@ -86,4 +91,24 @@ export interface LinkRequest {
 export interface LinkResponse {
     text: string;
     link: string;
+}
+
+export interface TextType {
+    id: number;
+    documentId: string;
+    name: string;
+    color: string;
+}
+
+export interface TextAuthorType {
+    id: number;
+    documentId: string;
+    title: string;
+    color: string;
+}
+
+export interface KeyWord {
+    id: number;
+    documentId: string;
+    keyWord: string;
 }

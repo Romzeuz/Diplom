@@ -1,6 +1,7 @@
 .text-card {
     border-radius: 15px;
     backdrop-filter: blur(30px);
+    /*width: 380px;*/
 }
 
 .text-card .ant-card-meta {
@@ -12,4 +13,40 @@
     padding-right: 0; /* Убираем отступ справа по умолчанию */
     padding-left: 16px; /* Добавляем отступ слева для разделения с деталями */
     font-weight: 700;
+}
+
+.text-card .ant-card-meta-title {
+    white-space: normal; /* Разрешить перенос текста */
+    overflow: visible; /* Отображать текст, выходящий за пределы */
+    text-overflow: initial; /* Сбросить многоточие */
+    font-weight: 600; /* Жирный шрифт для заголовка */
+    font-size: 20px;
+    line-height: 24px; /* Измененный междустрочный интервал */
+}
+
+.text-card .ant-card-meta-description {
+    font-size: 12px; /* Размер шрифта для описания */
+    color: #1E252C80;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.text-card .tag {
+    border: 1px solid #1E252C;
+    color: #1E252C;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 6px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.text-card .author-tag {
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 5px 11px;
+    border-radius: 5px;
 }

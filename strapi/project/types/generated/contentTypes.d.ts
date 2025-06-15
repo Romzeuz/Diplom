@@ -468,6 +468,38 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiTextAuthorTypeTextAuthorType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'text_author_types';
+  info: {
+    displayName: 'Text Author type';
+    pluralName: 'text-author-types';
+    singularName: 'text-author-type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    color: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::text-author-type.text-author-type'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTextTapyTextTapy extends Struct.CollectionTypeSchema {
   collectionName: 'text_tapies';
   info: {
@@ -526,7 +558,11 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     text: Schema.Attribute.RichText & Schema.Attribute.Required;
-    text_tapy: Schema.Attribute.Relation<
+    text_author_type: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::text-author-type.text-author-type'
+    >;
+    text_type: Schema.Attribute.Relation<
       'oneToOne',
       'api::text-tapy.text-tapy'
     >;
@@ -1082,6 +1118,7 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::key-word.key-word': ApiKeyWordKeyWord;
       'api::tag.tag': ApiTagTag;
+      'api::text-author-type.text-author-type': ApiTextAuthorTypeTextAuthorType;
       'api::text-tapy.text-tapy': ApiTextTapyTextTapy;
       'api::text.text': ApiTextText;
       'api::timeline.timeline': ApiTimelineTimeline;

@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "text_author_types",
+  "info": {
+    "singularName": "text-author-type",
+    "pluralName": "text-author-types",
+    "displayName": "Text Author type"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}

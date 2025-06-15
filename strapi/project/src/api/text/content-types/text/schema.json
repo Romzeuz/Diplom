@@ -52,10 +52,15 @@
       "target": "api::key-word.key-word",
       "mappedBy": "texts"
     },
-    "text_tapy": {
+    "text_type": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::text-tapy.text-tapy"
+    },
+    "text_author_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::text-author-type.text-author-type"
     }
   }
 }

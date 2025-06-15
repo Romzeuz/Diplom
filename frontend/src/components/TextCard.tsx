@@ -10,30 +10,40 @@ interface TextCardProps {
 }
 
 const TextCard: React.FC<TextCardProps> = ({text}) => {
+    console.log(text.tags);
     return (
         <Link to={`/text/${text.documentId}`}>
             <Card
-                cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}/>}
+                cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}
+                            style={{borderTopLeftRadius: 15, borderTopRightRadius: 15}}/>}
                 style={{marginBottom: 16, background: '#ACCFF266'}}
                 className="text-card"
+                variant="borderless"
             >
                 <Card.Meta
                     title={text.title}
-                    description={<>
-                    {text.authors.map((author, index) => (
-                        <span key={author.id}>
-                            {author.name}
-                            {index < text.authors.length - 1 ? ', ' : ''}
+                    description={
+                        <span>
+                            {text.text_type?.name}
                         </span>
-                    ))}
-                    </>}
+                    }
                     avatar={<Typography.Paragraph style={{fontSize: '48px', color: '#1E252C80'}}>
-                        ‘87
+                        {text.date && <>‘{text.date.split('-')[0].slice(2)}</>}
                     </Typography.Paragraph>}
                 />
-                <div style={{marginTop: 8}}>
+                <div>
+                    {text.text_author_type &&
+                        <Tag key={text.text_author_type.id} className="author-tag"
+                             style={{
+                                 color: text.text_author_type.color,
+                                 border: `1px solid ${text.text_author_type.color}`
+                             }}>
+                            {text.text_author_type.title}
+                        </Tag>}
+                </div>
+                <div style={{marginTop: 17}}>
                     {text.tags.map(tag => (
-                        <Tag key={tag.id}>{tag.title}</Tag>
+                        <Tag key={tag.id} className="tag">{tag.title}</Tag>
                     ))}
                 </div>
             </Card>
