@@ -1,0 +1,31 @@
+---
+title: Диаграмма последовательности
+---
+sequenceDiagram
+    actor Admin
+    participant Frontend as Фронтенд
+    participant Strapi as Strapi
+    participant Gateway as Гейтвей
+    participant Broker as NATS
+    participant AI as Нейронка
+    participant Adapter as Адаптер
+
+    Frontend->>+Strapi: Запросы на получение статей и др
+    Strapi-->>-Frontend: Ответы с данными
+
+    Admin->>+Strapi: Создание/редактирование статей
+    activate Strapi
+    Strapi->>+Gateway: Триггер хука на обновление
+    deactivate Strapi
+    activate Gateway
+    Gateway-)Broker: Отправка сообщения о новом тексте
+    deactivate Gateway
+    Broker->>+AI: Запрос на генерацию тегов
+    AI-->>-Broker: Ответ с тегами
+    Broker->>+Adapter: Отправка тегов в адаптер
+    Adapter-->>-Strapi: Обновление тегов в Strapi
+
+    critical Не понятно, будем ли делать
+        Frontend->>+Gateway: Запрос на получение ссылки на статьи
+        Gateway-->>-Frontend: Ответ со ссылкой на статьи
+    end
