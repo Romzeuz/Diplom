@@ -42,7 +42,7 @@ export interface Text {
     logo: StrapiMedia;
     text_type: TextType;
     text_author_type: TextAuthorType;
-    keyWords: KeyWord[];
+    key_words: KeyWord[];
 }
 
 export interface Author {

@@ -1,21 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {Typography, Spin, Tooltip, Popover, Button} from 'antd';
+import {Typography, Spin, Tooltip, Layout, Flex} from 'antd';
 import ReactMarkdown from 'react-markdown';
 import {textApi} from '../api/strapiClient';
-import {aiApi} from '../api/aiClient';
-import {Text, AIExplanation} from '../types';
-import {InfoCircleOutlined} from '@ant-design/icons';
+import {Text} from '../types';
+import {BookOutlined, InfoCircleOutlined} from '@ant-design/icons';
+import rehypeSlug from 'rehype-slug';
+import {slugify} from 'transliteration';
+import SidePanel from '../components/TextView/SidePanel';
 
 const {Title, Paragraph} = Typography;
+const {Content} = Layout;
 
 const TextView: React.FC = () => {
     const {id} = useParams<{ id: string }>();
     const [text, setText] = useState<Text | null>(null);
     const [loading, setLoading] = useState(true);
-    const [selectedText, setSelectedText] = useState('');
-    const [explanation, setExplanation] = useState<AIExplanation | null>(null);
-    const [explainLoading, setExplainLoading] = useState(false);
+    const [tocItems, setTocItems] = useState<{ level: number; title: string; slug: string }[]>([]);
+    const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
+    const [occurrenceCount, setOccurrenceCount] = useState(0);
+    const [currentOccurrence, setCurrentOccurrence] = useState(0);
 
     useEffect(() => {
         const fetchText = async () => {
@@ -23,11 +27,29 @@ const TextView: React.FC = () => {
 
             setLoading(true);
             try {
-                // const links = await aiApi.getContextualLinks({text: "takosfkamsf", start_index: 1,
-                //   end_index: 59, book_id: 1});
                 const data = await textApi.getText(id);
                 setText(data);
-                console.log(data);
+
+                // Generate ToC items from markdown
+                const markdownText = data.text;
+                const headingLines = markdownText.match(/^#+\s.*/gm) || [];
+                const slugs: { [key: string]: number } = {};
+                const items = headingLines.map(line => {
+                    const level = line.match(/^#+/)?.[0].length || 1;
+                    const title = line.replace(/^#+\s*/, '');
+                    let slug = slugify(title, {lowercase: true, separator: '-'});
+
+                    // Handle duplicate slugs to match rehype-slug behavior
+                    if (slugs[slug] !== undefined) {
+                        slugs[slug]++;
+                        slug = `${slug}-${slugs[slug]}`;
+                    } else {
+                        slugs[slug] = 0;
+                    }
+
+                    return {level, title, slug};
+                });
+                setTocItems(items);
             } catch (error) {
                 console.error('Ошибка при загрузке текста:', error);
             } finally {
@@ -38,25 +60,33 @@ const TextView: React.FC = () => {
         fetchText();
     }, [id]);
 
-    const handleTextSelection = () => {
-        const selection = window.getSelection();
-        if (selection && selection.toString().length > 0) {
-            setSelectedText(selection.toString());
+    useEffect(() => {
+        if (selectedKeyword && text) {
+            const regex = new RegExp(`\\b${selectedKeyword}\\b`, "gi");
+            const count = (text.text.match(regex) || []).length;
+            setOccurrenceCount(count);
+            setCurrentOccurrence(0);
+        } else {
+            setOccurrenceCount(0);
         }
+    }, [selectedKeyword, text]);
+
+    useEffect(() => {
+        if (selectedKeyword && occurrenceCount > 0) {
+            const element = document.getElementById(`keyword-occurrence-${currentOccurrence}`);
+            element?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+        }
+    }, [currentOccurrence, selectedKeyword, occurrenceCount]);
+
+    const handlePrevOccurrence = () => {
+        setCurrentOccurrence(prev => (prev > 0 ? prev - 1 : occurrenceCount - 1));
     };
 
-    const handleExplain = async () => {
-        if (!selectedText) return;
-
-        setExplainLoading(true);
-        try {
-            const data = await aiApi.getExplanation(selectedText);
-            setExplanation(data);
-        } catch (error) {
-            console.error('Ошибка при получении объяснения:', error);
-        } finally {
-            setExplainLoading(false);
-        }
+    const handleNextOccurrence = () => {
+        setCurrentOccurrence(prev => (prev < occurrenceCount - 1 ? prev + 1 : 0));
     };
 
     if (loading) {
@@ -71,78 +101,96 @@ const TextView: React.FC = () => {
         return <div>Текст не найден</div>;
     }
 
-    const ExplanationPopover = () => (
-        <Popover
-            open={!!selectedText && !!explanation}
-            content={
-                <div>
-                    {explainLoading ? (
-                        <Spin size="small"/>
-                    ) : (
-                        <div>
-                            <Paragraph>{explanation?.explanation}</Paragraph>
-                            {explanation?.links && explanation.links.length > 0 && (
-                                <ul>
-                                    {explanation.links.map((link, index) => (
-                                        <li key={index}>{link}</li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
-                    )}
-                </div>
+    let keywordOccurrenceIndex = 0;
+
+    const markdownComponents = {
+        p: ({node, ...props}: any) => {
+            if (!selectedKeyword) {
+                return <p {...props} />;
             }
-            title="Объяснение"
-            trigger="click"
-        >
-            <Button
-                type="primary"
-                size="small"
-                onClick={handleExplain}
-                disabled={!selectedText}
-                style={{display: selectedText ? 'inline-block' : 'none'}}
-            >
-                Объяснить
-            </Button>
-        </Popover>
-    );
+
+            const children = React.Children.toArray(props.children);
+
+            const newChildren = children.map((child: any) => {
+                if (typeof child === 'string') {
+                    const regex = new RegExp(`(${selectedKeyword})`, 'gi');
+                    const parts = child.split(regex);
+                    return parts.map((part, i) => {
+                        if (part.toLowerCase() === selectedKeyword.toLowerCase()) {
+                            const currentIndex = keywordOccurrenceIndex;
+                            const isCurrent = currentIndex === currentOccurrence;
+                            keywordOccurrenceIndex++;
+                            return (
+                                <span
+                                    key={i}
+                                    id={`keyword-occurrence-${currentIndex}`}
+                                    style={{
+                                        backgroundColor: isCurrent ? 'yellow' : '#dbeafe',
+                                        borderRadius: '3px',
+                                        padding: '2px 4px',
+                                        fontWeight: isCurrent ? 'bold' : 'normal',
+                                    }}
+                                >
+                                    {part}
+                                </span>
+                            );
+                        }
+                        return part;
+                    });
+                }
+                return child;
+            });
+
+            return <p>{newChildren}</p>;
+        },
+        a: ({node, ...props}: any) => (
+            <Tooltip title="Контекстная ссылка">
+                <a {...props} target="_blank" rel="noopener noreferrer">
+                    {props.children} <InfoCircleOutlined/>
+                </a>
+            </Tooltip>
+        ),
+    };
 
     return (
-        <div className="text-view">
-            <Title level={1}>{text.title}</Title>
-            <Paragraph type="secondary">Авторы: {text.authors?.map(
-                (author, index) => (
-                    <span key={author.id}>
+        <Layout style={{background: 'transparent'}}>
+            <SidePanel
+                text={text}
+                tocItems={tocItems}
+                selectedKeyword={selectedKeyword}
+                onKeywordSelect={setSelectedKeyword}
+                occurrenceCount={occurrenceCount}
+                currentOccurrence={currentOccurrence}
+                onPrevOccurrence={handlePrevOccurrence}
+                onNextOccurrence={handleNextOccurrence}
+            />
+            <Content style={{ padding: '0 24px' }}>
+                <div className="text-view">
+                    <Flex align="center" gap={10} style={{marginBottom: '16px'}}>
+                        <BookOutlined style={{fontSize: '30px'}}/>
+                        <Title level={3} style={{margin: 0}}>{text.title}</Title>
+                    </Flex>
+                    <Paragraph type="secondary">Авторы: {text.authors?.map(
+                        (author, index) => (
+                            <span key={author.id}>
                         {author.name}
-                        {index < text.authors.length - 1 ? ', ' : ''}
+                                {index < text.authors.length - 1 ? ', ' : ''}
                     </span>
-                )
-            )}</Paragraph>
+                        )
+                    )}</Paragraph>
 
-            <div className="text-tools">
-                <ExplanationPopover/>
-            </div>
-
-            <div
-                className="text-content"
-                onMouseUp={handleTextSelection}
-            >
-                <ReactMarkdown
-                    children={text.text}
-                    components={{
-                        // Кастомный рендеринг компонентов Markdown
-                        // Например, для автоматических гиперссылок и тултипов
-                        a: ({node, ...props}) => (
-                            <Tooltip title="Контекстная ссылка">
-                                <a {...props} target="_blank" rel="noopener noreferrer">
-                                    {props.children} <InfoCircleOutlined/>
-                                </a>
-                            </Tooltip>
-                        ),
-                    }}
-                />
-            </div>
-        </div>
+                    <div
+                        className="text-content"
+                    >
+                        <ReactMarkdown
+                            children={text.text}
+                            rehypePlugins={[rehypeSlug]}
+                            components={markdownComponents}
+                        />
+                    </div>
+                </div>
+            </Content>
+        </Layout>
     );
 };
 

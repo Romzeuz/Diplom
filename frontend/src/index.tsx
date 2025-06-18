@@ -1,3 +1,4 @@
+import '@ant-design/v5-patch-for-react-19';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -22,7 +23,11 @@ root.render(
                         tailWidth: '3px',
                         colorPrimary: 'black',
                         dotBorderWidth: '3px',
-                    }
+                    },
+                    Layout: {
+                        lightSiderBg: 'transparent',
+                    },
+
                 },
                 token: {
                     colorPrimary: '#ACCFF2',
@@ -40,8 +45,6 @@ root.render(
                     lineHeightSM: 1.5,
 
                     // Добавляем цвета фона из токенов
-                    colorBgLayout: '#FFFFFF',        // Для фона body
-                    colorBgContainer: '#F9F9F9',     // Для фона основного контента, например .site-layout-content
                 },
             }}
         >
