@@ -1,3 +1,38 @@
+.collection-page {
+  position: relative; /* Необходимо для позиционирования дочерних элементов */
+  overflow: hidden; /* Чтобы векторы не выходили за пределы страницы */
+}
+
+.collection-page .background-vectors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Размещаем под контентом */
+  overflow: hidden; /* Обрезаем векторы, если они выходят за пределы */
+}
+
+.collection-page .background-vectors .bg-vector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /*opacity: 0.5; !* Примерная прозрачность, можно настроить *!*/
+}
+
+.collection-page .background-vectors .bg-vector-1 {
+  top: 30%; /* Примерное положение, можно настроить */
+  left: 60%; /* Примерное положение, можно настроить */
+  width: clamp(300px, 35%, 600px); /* Примерный размер, можно настроить */
+  /* Можно добавить transform для поворота или других эффектов */
+}
+
+.bg-vector-2 {
+  top: 40% !important;
+  width: clamp(300px, 50%, 600px); /* Примерный размер, можно настроить */
+  /* Можно добавить transform для поворота или других эффектов */
+}
+
 .masonry-grid {
   margin-top: 20px;
   column-count: 1;
@@ -12,7 +47,7 @@
 
 @media (min-width: 900px) {
   .masonry-grid {
-    column-count: 3;
+    column-count: 2;
   }
 }
 
@@ -26,4 +61,3 @@
   break-inside: avoid;
   margin-bottom: 35px;
 }
-

@@ -44,11 +44,6 @@
     margin-top: 0;
 }
 
-.about-raibekas-page .ant-timeline .ant-timeline-item-head,
-.about-raibekas-page .ant-timeline .ant-timeline-item-tail {
-
-}
-
 @media (max-width: 1200px) {
     .about-raibekas-page .raibekas-title {
         font-size: 72px;

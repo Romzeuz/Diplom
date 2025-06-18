@@ -15,13 +15,33 @@ root.render(
         <ConfigProvider
             locale={ru_RU}
             theme={{
+                components: {
+                    Timeline: {
+                        dotBg: 'black',
+                        tailColor: 'black',
+                        tailWidth: '3px',
+                        colorPrimary: 'black',
+                        dotBorderWidth: '3px',
+                    }
+                },
                 token: {
                     colorPrimary: '#ACCFF2',
+                    colorInfo: '#ACCFF2',
+                    colorLink: '#ACCFF2',
                     borderRadius: 4,
+
                     // Добавляем глобальный шрифт здесь
                     fontFamily: '"IBM Plex Sans", "Segoe UI", Roboto, ' +
                         'Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", ' +
                         '"Helvetica Neue", sans-serif',
+                    fontSize: 16,
+                    colorTextBase: '#1E252C',
+                    lineHeight: 1.6,
+                    lineHeightSM: 1.5,
+
+                    // Добавляем цвета фона из токенов
+                    colorBgLayout: '#FFFFFF',        // Для фона body
+                    colorBgContainer: '#F9F9F9',     // Для фона основного контента, например .site-layout-content
                 },
             }}
         >

@@ -3,7 +3,7 @@ import {Spin, Timeline, Typography} from 'antd';
 import {authorApi, textApi} from '../api/strapiClient';
 import {Author} from '../types';
 import "./AboutRaibekasPage.css"
-import { API_CONFIG } from '../api/config';
+import {API_CONFIG} from '../api/config';
 import {SaveFilled} from "@ant-design/icons"; // Импорт API_CONFIG
 
 const {Title, Paragraph} = Typography;
@@ -77,8 +77,16 @@ const AboutRaibekasPage: React.FC = () => {
                         year: 'numeric'
                     });
                     return {
-                        label: <p>{formattedDate}</p>,
-                        dot: <SaveFilled style={{color: 'black', fontSize: '24px'}}/>,
+                        label: <Paragraph
+                            style={{
+                                marginLeft: 20,
+                                marginRight: 20,
+                                fontSize: 20,
+                                fontWeight: 300,
+                            }}
+                        >
+                            {formattedDate}
+                        </Paragraph>,
                         children: (
                             <div className="timeline-event">
                                 {te.media && te.media.url && (

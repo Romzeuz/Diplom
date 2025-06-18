@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
 import {Row, Typography, Image} from 'antd';
-import {aiApi} from "../api/aiClient";
-import './HomePage.css';
 
 import ImagePane, {AlignEnum} from "../components/ImagePane";
 
@@ -19,14 +17,18 @@ const HomePage: React.FC = () => {
                         maxWidth: '100%',
                         objectFit: 'contain'
                     }}/>}
-                    HeaderComponent={<Title
-                        style={{
-                            fontSize: 'clamp(60px, 6vw, 120px)',
-                            fontFamily: "IBM Plex Sans",
-                            fontWeight: '500',
-                    }}>Цифровой<br/>Райбекас</Title>}
+                    HeaderComponent={
+                        <Title
+                            style={{
+                                fontSize: 'clamp(60px, 6vw, 120px)',
+                                fontWeight: '500',
+                            }}
+                        >
+                            Цифровой<br/>Райбекас
+                        </Title>
+                    }
                     TextCardComponent={
-                        <Paragraph className="pane" style={{maxWidth: '100%'}}>
+                        <Paragraph style={{maxWidth: '100%'}}>
                             Интерактивный корпус философских работ, включающий книги,
                             лекции и редкие статьи. Платформа также содержит исследования
                             о философе и предлагает интерактивного чат-бота,
@@ -52,7 +54,7 @@ const HomePage: React.FC = () => {
                     }}/>}
                     HeaderComponent={<Title level={3}>Райбекас: мысль и отражение</Title>}
                     TextCardComponent={
-                        <Paragraph className="pane" style={{maxWidth: '100%'}}>
+                        <Paragraph style={{maxWidth: '100%'}}>
                             Собрание авторских работ Альберта Яновича и публикаций
                             о нём — от академических исследований до личных воспоминаний.
                             Это пространство диалога между его идеями и их отражением в умах других.
@@ -78,7 +80,7 @@ const HomePage: React.FC = () => {
                     />}
                     HeaderComponent={<Title level={3}>Путь философа</Title>}
                     TextCardComponent={
-                        <Paragraph className="pane" style={{maxWidth: '100%'}}>
+                        <Paragraph style={{maxWidth: '100%'}}>
                             Загляните на страницу с таймлайном, чтобы увидеть,
                             как складывалась жизнь Альберта Яновича — в датах,
                             событиях и фотографиях. Это простой и наглядный способ
@@ -105,7 +107,7 @@ const HomePage: React.FC = () => {
                     />}
                     HeaderComponent={<Title level={3}>О проекте</Title>}
                     TextCardComponent={
-                        <Paragraph className="pane" style={{maxWidth: '100%'}}>
+                        <Paragraph style={{maxWidth: '100%'}}>
                             На странице «О проекте» представлена информация
                             о целях, идеях и концепции платформы, посвящённой
                             наследию Альберта Яновича Райбекаса.
