@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "text": {
-      "type": "richtext",
-      "required": true
-    },
     "authors": {
       "type": "relation",
       "relation": "manyToMany",
@@ -61,6 +57,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::text-author-type.text-author-type"
+    },
+    "pages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::page.page"
     }
   }
 }
