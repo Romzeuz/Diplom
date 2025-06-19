@@ -1,3 +1,4 @@
+import '@ant-design/v5-patch-for-react-19';
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {Typography, Spin, Tooltip, Layout, Flex} from 'antd';
@@ -17,6 +18,7 @@ const TextView: React.FC = () => {
     const [text, setText] = useState<Text | null>(null);
     const [loading, setLoading] = useState(true);
     const [tocItems, setTocItems] = useState<{ level: number; title: string; slug: string }[]>([]);
+    const [tocItemsMap, setTocItemsMap] = useState<{ [key: string]: { level: number; title: string; slug: string } }>({});
     const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
     const [occurrenceCount, setOccurrenceCount] = useState(0);
     const [currentOccurrence, setCurrentOccurrence] = useState(0);
@@ -49,6 +51,12 @@ const TextView: React.FC = () => {
 
                     return {level, title, slug};
                 });
+
+                const itemsMap = items.reduce((acc, item) => {
+                    acc[item.slug] = item;
+                    return acc;
+                }, {} as {[key: string]: {level: number; title: string; slug: string }});
+                setTocItemsMap(itemsMap);
                 setTocItems(items);
             } catch (error) {
                 console.error('Ошибка при загрузке текста:', error);
@@ -150,6 +158,16 @@ const TextView: React.FC = () => {
                 </a>
             </Tooltip>
         ),
+        h1: ({node, ...props}: any) => {
+            const slug = slugify(props.children, {lowercase: true, separator: '-'});
+            console.log(slug, props.children);
+            const tocItem = tocItemsMap[slug];
+            return (
+                <h1 id={slug} {...props}>
+                    {tocItem ? <a href={`#${slug}`} style={{color: 'inherit'}}>{props.children}</a> : props.children}
+                </h1>
+            );
+        },
     };
 
     return (
@@ -184,7 +202,6 @@ const TextView: React.FC = () => {
                     >
                         <ReactMarkdown
                             children={text.text}
-                            rehypePlugins={[rehypeSlug]}
                             components={markdownComponents}
                         />
                     </div>
