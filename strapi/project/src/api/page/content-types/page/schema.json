@@ -15,10 +15,16 @@
       "type": "richtext",
       "required": true
     },
-    "number": {
+    "page_number": {
       "type": "integer",
       "default": 0,
       "min": 0
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::text.text",
+      "inversedBy": "pages"
     }
   }
 }

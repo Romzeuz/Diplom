@@ -1,14 +1,14 @@
 import '@ant-design/v5-patch-for-react-19';
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {Typography, Spin, Tooltip, Layout, Flex} from 'antd';
+import {Typography, Spin, Tooltip, Layout, Flex, Tag} from 'antd';
 import ReactMarkdown from 'react-markdown';
 import {textApi} from '../api/strapiClient';
-import {Text} from '../types';
-import {BookOutlined, InfoCircleOutlined} from '@ant-design/icons';
-import rehypeSlug from 'rehype-slug';
-import {slugify} from 'transliteration';
+import {Text, TocItem, Page} from '../types';
+import {BookOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
 import SidePanel from '../components/TextView/SidePanel';
+import {Pagination} from 'antd';
+import "./TextView.css";
 
 const {Title, Paragraph} = Typography;
 const {Content} = Layout;
@@ -16,12 +16,21 @@ const {Content} = Layout;
 const TextView: React.FC = () => {
     const {id} = useParams<{ id: string }>();
     const [text, setText] = useState<Text | null>(null);
+    const [page, setPage] = useState<Page | null>(null)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [tocItems, setTocItems] = useState<{ level: number; title: string; slug: string }[]>([]);
-    const [tocItemsMap, setTocItemsMap] = useState<{ [key: string]: { level: number; title: string; slug: string } }>({});
     const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
     const [occurrenceCount, setOccurrenceCount] = useState(0);
     const [currentOccurrence, setCurrentOccurrence] = useState(0);
+
+    const handlePrevOccurrence = () => {
+        setCurrentOccurrence(prev => (prev > 0 ? prev - 1 : occurrenceCount - 1));
+    };
+
+    const handleNextOccurrence = () => {
+        setCurrentOccurrence(prev => (prev < occurrenceCount - 1 ? prev + 1 : 0));
+    };
 
     useEffect(() => {
         const fetchText = async () => {
@@ -31,33 +40,6 @@ const TextView: React.FC = () => {
             try {
                 const data = await textApi.getText(id);
                 setText(data);
-
-                // Generate ToC items from markdown
-                const markdownText = data.text;
-                const headingLines = markdownText.match(/^#+\s.*/gm) || [];
-                const slugs: { [key: string]: number } = {};
-                const items = headingLines.map(line => {
-                    const level = line.match(/^#+/)?.[0].length || 1;
-                    const title = line.replace(/^#+\s*/, '');
-                    let slug = slugify(title, {lowercase: true, separator: '-'});
-
-                    // Handle duplicate slugs to match rehype-slug behavior
-                    if (slugs[slug] !== undefined) {
-                        slugs[slug]++;
-                        slug = `${slug}-${slugs[slug]}`;
-                    } else {
-                        slugs[slug] = 0;
-                    }
-
-                    return {level, title, slug};
-                });
-
-                const itemsMap = items.reduce((acc, item) => {
-                    acc[item.slug] = item;
-                    return acc;
-                }, {} as {[key: string]: {level: number; title: string; slug: string }});
-                setTocItemsMap(itemsMap);
-                setTocItems(items);
             } catch (error) {
                 console.error('Ошибка при загрузке текста:', error);
             } finally {
@@ -69,32 +51,37 @@ const TextView: React.FC = () => {
     }, [id]);
 
     useEffect(() => {
-        if (selectedKeyword && text) {
-            const regex = new RegExp(`\\b${selectedKeyword}\\b`, "gi");
-            const count = (text.text.match(regex) || []).length;
-            setOccurrenceCount(count);
-            setCurrentOccurrence(0);
-        } else {
-            setOccurrenceCount(0);
-        }
-    }, [selectedKeyword, text]);
+        const fetchPage = async () => {
+            if (!id) return;
 
-    useEffect(() => {
-        if (selectedKeyword && occurrenceCount > 0) {
-            const element = document.getElementById(`keyword-occurrence-${currentOccurrence}`);
-            element?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-            });
-        }
-    }, [currentOccurrence, selectedKeyword, occurrenceCount]);
+            setLoading(true);
+            try {
+                const data = await textApi.getPages(id, currentPage);
+                setPage(data.data);
+                console.log('Fetched page:', data.data, data.meta);
+                setTotalPages(data.meta.pageCount);
+            } catch (error) {
+                console.error('Ошибка при загрузке страницы:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const handlePrevOccurrence = () => {
-        setCurrentOccurrence(prev => (prev > 0 ? prev - 1 : occurrenceCount - 1));
+        fetchPage();
+    }, [id, currentPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
     };
 
-    const handleNextOccurrence = () => {
-        setCurrentOccurrence(prev => (prev < occurrenceCount - 1 ? prev + 1 : 0));
+    const handleKeywordSelect = (keyword: string | null) => {
+        if (selectedKeyword === keyword || keyword === null) {
+            setSelectedKeyword(null);
+            setOccurrenceCount(0);
+            setCurrentOccurrence(0);
+        } else {
+            setSelectedKeyword(keyword);
+        }
     };
 
     if (loading) {
@@ -158,56 +145,63 @@ const TextView: React.FC = () => {
                 </a>
             </Tooltip>
         ),
-        h1: ({node, ...props}: any) => {
-            const slug = slugify(props.children, {lowercase: true, separator: '-'});
-            console.log(slug, props.children);
-            const tocItem = tocItemsMap[slug];
-            return (
-                <h1 id={slug} {...props}>
-                    {tocItem ? <a href={`#${slug}`} style={{color: 'inherit'}}>{props.children}</a> : props.children}
-                </h1>
-            );
-        },
     };
 
     return (
-        <Layout style={{background: 'transparent'}}>
-            <SidePanel
-                text={text}
-                tocItems={tocItems}
-                selectedKeyword={selectedKeyword}
-                onKeywordSelect={setSelectedKeyword}
-                occurrenceCount={occurrenceCount}
-                currentOccurrence={currentOccurrence}
-                onPrevOccurrence={handlePrevOccurrence}
-                onNextOccurrence={handleNextOccurrence}
-            />
-            <Content style={{ padding: '0 24px' }}>
-                <div className="text-view">
-                    <Flex align="center" gap={10} style={{marginBottom: '16px'}}>
-                        <BookOutlined style={{fontSize: '30px'}}/>
-                        <Title level={3} style={{margin: 0}}>{text.title}</Title>
-                    </Flex>
-                    <Paragraph type="secondary">Авторы: {text.authors?.map(
-                        (author, index) => (
-                            <span key={author.id}>
-                        {author.name}
-                                {index < text.authors.length - 1 ? ', ' : ''}
-                    </span>
-                        )
-                    )}</Paragraph>
+        <>
+            <Flex align="center" gap={20} style={{marginBottom: '16px', padding: '0 24px'}}>
+                <BookOutlined style={{fontSize: '36px'}}/>
+                <Title level={3} style={{margin: 0}}>{text.title}</Title>
+            </Flex>
+            <Layout style={{background: 'transparent'}}>
+                <SidePanel
+                    text={text}
+                    tocItems={text.table_of_contents}
+                    selectedKeyword={selectedKeyword}
+                    onKeywordSelect={handleKeywordSelect}
+                    occurrenceCount={occurrenceCount}
+                    currentOccurrence={currentOccurrence}
+                    onPrevOccurrence={handlePrevOccurrence}
+                    onNextOccurrence={handleNextOccurrence}
+                    changePage={(pageNumber) => setCurrentPage(pageNumber)}
+                />
+                <Content style={{padding: '0 24px'}}>
+                    <div>
+                        <Paragraph style={{fontWeight: 400, marginBottom: '60px', fontSize: '24px'}}>
+                            <UserOutlined style={{fontSize: '36px', marginRight: '20px'}}/>
+                            {text.authors?.map(
+                                (author, index) => (
+                                    <span key={author.id}>
+                                    {author.name}{index < text.authors.length - 1 ? ', ' : ''}
+                                </span>
+                                )
+                            )}</Paragraph>
 
-                    <div
-                        className="text-content"
-                    >
-                        <ReactMarkdown
-                            children={text.text}
-                            components={markdownComponents}
+                        <div className="tag-container" style={{fontWeight: 400, marginBottom: '60px', fontSize: '24px'}}>
+                            <div>
+                                {text.tags.map(tag => (
+                                    <Tag key={tag.id} className="tag">{tag.title}</Tag>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <ReactMarkdown
+                                children={page?.text || ''}
+                                components={markdownComponents}
+                            />
+                        </div>
+                        <Pagination
+                            current={currentPage}
+                            total={totalPages}
+                            pageSize={1}
+                            onChange={handlePageChange}
+                            style={{marginTop: '16px', textAlign: 'center', justifyContent: 'center'}}
                         />
                     </div>
-                </div>
-            </Content>
-        </Layout>
+                </Content>
+            </Layout>
+        </>
     );
 };
 

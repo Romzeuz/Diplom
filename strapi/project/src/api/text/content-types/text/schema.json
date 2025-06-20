@@ -42,12 +42,6 @@
     "date": {
       "type": "date"
     },
-    "key_words": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::key-word.key-word",
-      "mappedBy": "texts"
-    },
     "text_type": {
       "type": "relation",
       "relation": "oneToOne",
@@ -61,7 +55,14 @@
     "pages": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::page.page"
+      "target": "api::page.page",
+      "mappedBy": "parent"
+    },
+    "table_of_contents": {
+      "type": "json"
+    },
+    "key_words": {
+      "type": "json"
     }
   }
 }

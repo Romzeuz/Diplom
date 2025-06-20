@@ -410,35 +410,6 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiKeyWordKeyWord extends Struct.CollectionTypeSchema {
-  collectionName: 'key_words';
-  info: {
-    displayName: 'KeyWord';
-    pluralName: 'key-words';
-    singularName: 'key-word';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    keyWord: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::key-word.key-word'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    texts: Schema.Attribute.Relation<'manyToMany', 'api::text.text'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
@@ -456,7 +427,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
-    number: Schema.Attribute.Integer &
+    page_number: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
           min: 0;
@@ -464,6 +435,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<0>;
+    parent: Schema.Attribute.Relation<'manyToOne', 'api::text.text'>;
     publishedAt: Schema.Attribute.DateTime;
     text: Schema.Attribute.RichText & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -580,16 +552,14 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
-    key_words: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::key-word.key-word'
-    >;
+    key_words: Schema.Attribute.JSON;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::text.text'> &
       Schema.Attribute.Private;
     logo: Schema.Attribute.Media<'images' | 'files'>;
     pages: Schema.Attribute.Relation<'oneToMany', 'api::page.page'>;
     publishedAt: Schema.Attribute.DateTime;
+    table_of_contents: Schema.Attribute.JSON;
     tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
     text_author_type: Schema.Attribute.Relation<
       'oneToOne',
@@ -1149,7 +1119,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::author.author': ApiAuthorAuthor;
-      'api::key-word.key-word': ApiKeyWordKeyWord;
       'api::page.page': ApiPagePage;
       'api::tag.tag': ApiTagTag;
       'api::text-author-type.text-author-type': ApiTextAuthorTypeTextAuthorType;

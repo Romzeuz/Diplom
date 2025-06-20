@@ -30,11 +30,23 @@ export interface StrapiMedia {
     publishedAt: string;
 }
 
+export type TocItem = {
+    title: string;
+    page_number: number;
+    children: TocItem[];
+};
+
+export interface Page {
+    id: number;
+    documentId: string;
+    text: string;
+    page_number: number;
+}
+
 export interface Text {
     id: number;
     documentId: string;
     title: string;
-    text: string;
     date: string;
     annotation: string;
     authors: Author[];
@@ -42,7 +54,8 @@ export interface Text {
     logo: StrapiMedia;
     text_type: TextType;
     text_author_type: TextAuthorType;
-    key_words: KeyWord[];
+    key_words: {[key: string]: number[]};
+    table_of_contents: TocItem[];
 }
 
 export interface Author {
@@ -105,10 +118,4 @@ export interface TextAuthorType {
     documentId: string;
     title: string;
     color: string;
-}
-
-export interface KeyWord {
-    id: number;
-    documentId: string;
-    keyWord: string;
 }

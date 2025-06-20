@@ -3,7 +3,7 @@ import {Layout, Image, Drawer, Button, Grid} from 'antd';
 import {MenuOutlined} from '@ant-design/icons';
 import TableOfContents from './TableOfContents';
 import Keywords from './Keywords';
-import {Text} from '../../types';
+import {Text, TocItem} from '../../types';
 import {API_CONFIG} from '../../api/config';
 
 const {Sider} = Layout;
@@ -11,13 +11,14 @@ const {useBreakpoint} = Grid;
 
 interface SidePanelProps {
     text: Text;
-    tocItems: { level: number; title: string; slug: string }[];
+    tocItems: TocItem[];
     selectedKeyword: string | null;
     onKeywordSelect: (keyword: string | null) => void;
     occurrenceCount: number;
     currentOccurrence: number;
     onPrevOccurrence: () => void;
     onNextOccurrence: () => void;
+    changePage: (pageNumber: number) => void;
 }
 
 const SidePanelContent: React.FC<SidePanelProps> = ({
@@ -29,6 +30,7 @@ const SidePanelContent: React.FC<SidePanelProps> = ({
                                                         currentOccurrence,
                                                         onPrevOccurrence,
                                                         onNextOccurrence,
+                                                        changePage,
                                                     }) => (
     <>
         {text.logo && <Image src={`${API_CONFIG.STRAPI_MEDIA_URL}${text.logo.url}`}
@@ -36,7 +38,6 @@ const SidePanelContent: React.FC<SidePanelProps> = ({
                              style={{marginBottom: '20px', borderRadius: '8px'}}
                              preview={false}
         />}
-        <TableOfContents items={tocItems}/>
         <Keywords
             keywords={text.key_words || []}
             selectedKeyword={selectedKeyword}
@@ -46,6 +47,7 @@ const SidePanelContent: React.FC<SidePanelProps> = ({
             onPrev={onPrevOccurrence}
             onNext={onNextOccurrence}
         />
+        <TableOfContents items={tocItems} changePage={changePage}/>
     </>
 );
 

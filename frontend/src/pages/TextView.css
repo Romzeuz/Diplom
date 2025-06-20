@@ -1,0 +1,11 @@
+.tag-container .tag {
+    border: 1px solid #1E252C;
+    color: #1E252C;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 6px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}

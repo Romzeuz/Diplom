@@ -1,12 +1,11 @@
 import React from 'react';
 import { Typography, Flex, Button, Card } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { KeyWord } from '../../types';
 
 const { Title, Paragraph } = Typography;
 
 interface KeywordsProps {
-    keywords: KeyWord[];
+    keywords: {[key: string]: number[]};
     selectedKeyword: string | null;
     onSelect: (keyword: string | null) => void;
     occurrenceCount: number;
@@ -34,14 +33,14 @@ const Keywords: React.FC<KeywordsProps> = ({ keywords, selectedKeyword, onSelect
                 </Card>
             )}
             <Flex gap="small" wrap="wrap">
-                {keywords.map(kw => (
+                {Object.keys(keywords).map(kw => (
                     <Button
-                        key={kw.id}
+                        key={kw}
                         size="small"
-                        type={selectedKeyword === kw.keyWord ? 'primary' : 'default'}
-                        onClick={() => onSelect(kw.keyWord)}
+                        type={selectedKeyword === kw ? 'primary' : 'default'}
+                        onClick={() => onSelect(kw)}
                     >
-                        {kw.keyWord}
+                        {kw}
                     </Button>
                 ))}
             </Flex>
@@ -50,4 +49,3 @@ const Keywords: React.FC<KeywordsProps> = ({ keywords, selectedKeyword, onSelect
 };
 
 export default Keywords;
-
