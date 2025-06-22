@@ -8,6 +8,7 @@ import AboutRaibekasPage from './pages/AboutRaibekasPage';
 import CollectionPage from './pages/CollectionPage';
 import TextView from './pages/TextView';
 import Layout from './components/Layout';
+import AboutProjectPage from './pages/AboutProjectPage';
 
 import './App.css';
 
@@ -19,6 +20,7 @@ const App: React.FC = () => {
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/about-raibekas" element={<AboutRaibekasPage/>}/>
                     <Route path="/collection" element={<CollectionPage/>}/>
+                    <Route path="/about-project" element={<AboutProjectPage/>}/>
                     <Route path="/text/:id" element={<TextView/>}/>
                 </Routes>
             </Layout>

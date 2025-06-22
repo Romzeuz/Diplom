@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 export enum AlignEnum {
     LEFT = 'left',
     RIGHT = 'right',
+    CENTER = 'center',
 }
 
 interface ImagePaneProps {
@@ -54,6 +55,7 @@ const ImagePane: React.FC<ImagePaneProps> = ({
     }, []);
 
     const isLeft = Align === AlignEnum.LEFT;
+    const isCenter = Align === AlignEnum.CENTER;
 
     const handlePaneClick = () => {
         if (LinkHref) {
@@ -63,9 +65,10 @@ const ImagePane: React.FC<ImagePaneProps> = ({
 
     const paneStyle: React.CSSProperties = {
         display: 'flex',
-        flexDirection: isMobile ? 'column' : (isLeft ? 'row' : 'row-reverse'),
+        flexDirection: isMobile ? 'column' : (isCenter ? 'column' : (isLeft ? 'row' : 'row-reverse')),
         position: 'relative',
         cursor: LinkHref ? 'pointer' : 'default',
+        alignItems: isCenter ? 'center' : 'stretch',
     };
 
     const imageContainerStyle: React.CSSProperties = {
@@ -83,7 +86,7 @@ const ImagePane: React.FC<ImagePaneProps> = ({
     const textBlockStyle: React.CSSProperties = {
         display: 'flex',
         flexDirection: 'column',
-        textAlign: isMobile ? 'left' : TextAlign, // Центрируем текст на мобильном
+        textAlign: isMobile ? 'left' : (isCenter ? 'center' : TextAlign), // Центрируем текст на мобильном
         position: 'relative',
         zIndex: 1,
         ...(isMobile ? {
@@ -95,6 +98,7 @@ const ImagePane: React.FC<ImagePaneProps> = ({
             ...(isLeft
                 ? { marginLeft: `${TextMargin}px` }
                 : { marginRight: `${TextMargin}px` }),
+            ...(isCenter && { marginTop: '-100px' }),
             ...(maxTextWidth && { maxWidth: typeof maxTextWidth === 'number' ? `${maxTextWidth}px` : maxTextWidth }),
         })
         // Удален transform отсюда, он теперь применяется к отдельным элементам (заголовок/параграф)
