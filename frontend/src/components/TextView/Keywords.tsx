@@ -40,7 +40,7 @@ const Keywords: React.FC<KeywordsProps> = ({
                                 disabled={occurrenceCount[selectedKeyword] < 2}/>
                         <Paragraph style={{margin: 0}}>
                             {occurrenceCount[selectedKeyword] > 0 ?
-                                `${currentOccurrence + 1} / ${occurrenceCount}` : 'Не найдено'}
+                                `${currentOccurrence + 1} / ${occurrenceCount[selectedKeyword]}` : 'Не найдено'}
                         </Paragraph>
                         <Button size="small" icon={<RightOutlined/>} onClick={onNext}
                                 disabled={occurrenceCount[selectedKeyword] < 2}/>

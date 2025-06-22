@@ -10,6 +10,7 @@ import {BookOutlined, InfoCircleOutlined, TagOutlined, UserOutlined} from '@ant-
 import SidePanel from '../components/TextView/SidePanel';
 import {Pagination} from 'antd';
 import "./TextView.css";
+import keywords from "../components/TextView/Keywords";
 
 const {Title, Paragraph} = Typography;
 const {Content} = Layout;
@@ -40,6 +41,9 @@ const TextView: React.FC = () => {
 
     const handlePrevOccurrence = () => {
         if (!selectedKeyword) return;
+        if (currentPage > 1 && currentOccurrence < 1) {
+            setCurrentPage(prev => prev - 1);
+        }
         setCurrentOccurrence(prev => (prev > 0 ? prev - 1 : occurrenceCounts[selectedKeyword] - 1));
     };
 

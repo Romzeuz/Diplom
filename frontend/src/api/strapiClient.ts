@@ -37,7 +37,7 @@ export const textApi = {
                 page: pagination?.page || 1,
                 pageSize: pagination?.pageSize || 12,
             },
-            populate: ["authors", "tags", "text_type", "logo"],
+            populate: ["authors", "tags", "text_type", "logo", "text_author_type"],
         });
         const response = await strapiClient.get(`/texts?${query}`);
         const data = response.data.data;
