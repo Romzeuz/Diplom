@@ -1,66 +1,79 @@
 /* Стили для футера */
 .footer {
-  background: #ACCFF2;
-  color: black;
-  padding: 40px 50px;
+    background: #ACCFF2;
+    padding-top: 60px;
+    padding-bottom: 0;
 }
 
 /* Стили для блока партнеров */
 .footer-partners {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .partner-logo {
-  height: 70px;
-  width: 161px;
-  color: black;
-  padding: 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
+    height: 70px;
+    width: 161px;
+    color: black;
+    padding: 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
 }
 
 .partner-image {
-  max-height: 70px;
-  object-fit: contain;
-  filter: brightness(0%);
+    max-height: 70px;
+    object-fit: contain;
+    filter: brightness(0%);
 }
 
 /* Стили для блока контактов */
 .footer-contacts {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: flex-start;
-  text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    text-align: left;
 }
 
 .contact-item {
-  color: #000000;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
+    color: #000000;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
 }
 
 .copyright-text {
-  color: #000000;
-  text-align: left;
-  display: block;
-  font-size: 12px;
+    color: #000000;
+    text-align: left;
+    display: block;
+    font-size: 12px;
 }
 
 /* Медиа-запрос для мобильных устройств */
 @media (max-width: 768px) {
-  .footer-partners {
-    justify-content: center;
-    margin-bottom: 30px;
-  }
+    .footer {
+        padding-top: 10px !important;
+    }
 
-  .footer-contacts {
-    align-items: center;
-    text-align: center;
-  }
+    .copyright-text-container {
+        padding-left: 0 !important;
+    }
+
+    .copyright-text {
+        text-align: center;
+        padding: 0 !important;
+    }
+
+    .footer-partners {
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .footer-contacts {
+        align-items: center;
+        text-align: center;
+    }
 }

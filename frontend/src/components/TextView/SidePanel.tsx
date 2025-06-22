@@ -14,7 +14,7 @@ interface SidePanelProps {
     tocItems: TocItem[];
     selectedKeyword: string | null;
     onKeywordSelect: (keyword: string | null) => void;
-    occurrenceCount: number;
+    occurrenceCount: Record<string, number>;
     currentOccurrence: number;
     onPrevOccurrence: () => void;
     onNextOccurrence: () => void;
@@ -86,11 +86,14 @@ const SidePanel: React.FC<SidePanelProps> = (props) => {
             width="30%"
             theme="light"
             style={{
-                padding: '24px',
+                paddingTop: '32px',
+                paddingRight: '24px',
+                paddingLeft: '24px',
                 borderRadius: '8px',
                 position: 'sticky',
-                top: '24px',
-                height: '100vh',
+                top: '32px',
+                height: '100%',
+                minHeight: 600,
                 overflow: 'auto',
                 scrollbarWidth: 'thin',
                 scrollbarGutter: 'stable',

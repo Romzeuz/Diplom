@@ -27,7 +27,15 @@ root.render(
                     Layout: {
                         lightSiderBg: 'transparent',
                     },
-
+                    Select: {
+                        colorBorder: '#ACCFF2',
+                        lineWidth: 3,
+                        lineHeightLG: 50,
+                        borderRadius: 10,
+                        borderRadiusSM: 8,
+                        borderRadiusXS: 6,
+                        borderRadiusLG: 15,
+                    },
                 },
                 token: {
                     colorPrimary: '#ACCFF2',

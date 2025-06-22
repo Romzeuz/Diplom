@@ -9,3 +9,12 @@
     margin-bottom: 10px;
     margin-right: 10px;
 }
+
+.markdown-content p {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.markdown-content > p {
+    text-align: justify;
+}

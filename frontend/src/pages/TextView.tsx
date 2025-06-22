@@ -1,11 +1,12 @@
 import '@ant-design/v5-patch-for-react-19';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useParams} from 'react-router-dom';
 import {Typography, Spin, Tooltip, Layout, Flex, Tag} from 'antd';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import {textApi} from '../api/strapiClient';
 import {Text, TocItem, Page} from '../types';
-import {BookOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
+import {BookOutlined, InfoCircleOutlined, TagOutlined, UserOutlined} from '@ant-design/icons';
 import SidePanel from '../components/TextView/SidePanel';
 import {Pagination} from 'antd';
 import "./TextView.css";
@@ -21,15 +22,30 @@ const TextView: React.FC = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
-    const [occurrenceCount, setOccurrenceCount] = useState(0);
+    const [occurrenceCounts, setOccurrenceCounts] = useState({} as Record<string, number>);
     const [currentOccurrence, setCurrentOccurrence] = useState(0);
+    const markdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (page?.text && text?.key_words) {
+            const newCounts: Record<string, number> = {};
+            Object.keys(text.key_words).forEach(keyword => {
+                const regex = new RegExp(keyword, 'gi');
+                const matches = page.text.match(regex);
+                newCounts[keyword] = matches ? matches.length : 0;
+            });
+            setOccurrenceCounts(newCounts);
+        }
+    }, [page, text]);
 
     const handlePrevOccurrence = () => {
-        setCurrentOccurrence(prev => (prev > 0 ? prev - 1 : occurrenceCount - 1));
+        if (!selectedKeyword) return;
+        setCurrentOccurrence(prev => (prev > 0 ? prev - 1 : occurrenceCounts[selectedKeyword] - 1));
     };
 
     const handleNextOccurrence = () => {
-        setCurrentOccurrence(prev => (prev < occurrenceCount - 1 ? prev + 1 : 0));
+        if (!selectedKeyword) return;
+        setCurrentOccurrence(prev => (prev < occurrenceCounts[selectedKeyword] - 1 ? prev + 1 : 0));
     };
 
     useEffect(() => {
@@ -49,6 +65,8 @@ const TextView: React.FC = () => {
 
         fetchText();
     }, [id]);
+
+    console.log('fetchText called with id:', id, text);
 
     useEffect(() => {
         const fetchPage = async () => {
@@ -72,12 +90,12 @@ const TextView: React.FC = () => {
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+        markdownRef.current?.scrollIntoView({behavior: 'smooth'});
     };
 
     const handleKeywordSelect = (keyword: string | null) => {
         if (selectedKeyword === keyword || keyword === null) {
             setSelectedKeyword(null);
-            setOccurrenceCount(0);
             setCurrentOccurrence(0);
         } else {
             setSelectedKeyword(keyword);
@@ -159,46 +177,69 @@ const TextView: React.FC = () => {
                     tocItems={text.table_of_contents}
                     selectedKeyword={selectedKeyword}
                     onKeywordSelect={handleKeywordSelect}
-                    occurrenceCount={occurrenceCount}
+                    occurrenceCount={occurrenceCounts}
                     currentOccurrence={currentOccurrence}
                     onPrevOccurrence={handlePrevOccurrence}
                     onNextOccurrence={handleNextOccurrence}
-                    changePage={(pageNumber) => setCurrentPage(pageNumber)}
+                    changePage={handlePageChange}
                 />
-                <Content style={{padding: '0 24px'}}>
+                <Content style={{
+                    padding: '0 24px',
+                    paddingTop: 32,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    minHeight: 'calc(100vh - 230px)'
+                }}>
                     <div>
                         <Paragraph style={{fontWeight: 400, marginBottom: '60px', fontSize: '24px'}}>
-                            <UserOutlined style={{fontSize: '36px', marginRight: '20px'}}/>
-                            {text.authors?.map(
-                                (author, index) => (
-                                    <span key={author.id}>
+                            <div style={{display: 'flex', alignItems: 'flex-start'}}>
+                                <UserOutlined style={{fontSize: '36px', marginRight: '20px'}}/>
+                                {text.authors?.map(
+                                    (author, index) => (
+                                        <span key={author.id}>
                                     {author.name}{index < text.authors.length - 1 ? ', ' : ''}
                                 </span>
-                                )
-                            )}</Paragraph>
+                                    )
+                                )}
+                            </div>
+                        </Paragraph>
 
-                        <div className="tag-container" style={{fontWeight: 400, marginBottom: '60px', fontSize: '24px'}}>
-                            <div>
-                                {text.tags.map(tag => (
-                                    <Tag key={tag.id} className="tag">{tag.title}</Tag>
-                                ))}
+                        <div className="tag-container"
+                             style={{fontWeight: 400, marginBottom: '60px', fontSize: '24px'}}>
+                            <div style={{display: 'flex', alignItems: 'flex-start'}}>
+                                <TagOutlined style={{fontSize: '36px', marginRight: '20px'}}/>
+                                <div>
+                                    {text.tags.map(tag => (
+                                        <Tag key={tag.id} className="tag">{tag.title}</Tag>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        <div>
+                        <Paragraph style={{marginBottom: '60px'}}>
+                            <div style={{display: 'flex', alignItems: 'flex-start'}}>
+                                <div style={{fontWeight: 400, fontStyle: 'italic'}}>
+                                    {text.annotation}
+                                </div>
+                            </div>
+                        </Paragraph>
+
+                        <div className="markdown-content" ref={markdownRef}>
                             <ReactMarkdown
                                 children={page?.text || ''}
                                 components={markdownComponents}
+                                rehypePlugins={[rehypeRaw]}
                             />
                         </div>
-                        <Pagination
-                            current={currentPage}
-                            total={totalPages}
-                            pageSize={1}
-                            onChange={handlePageChange}
-                            style={{marginTop: '16px', textAlign: 'center', justifyContent: 'center'}}
-                        />
                     </div>
+                    <Pagination
+                        current={currentPage}
+                        total={totalPages}
+                        pageSize={1}
+                        onChange={handlePageChange}
+                        style={{marginTop: '16px', textAlign: 'center', justifyContent: 'center'}}
+                    />
                 </Content>
             </Layout>
         </>

@@ -57,13 +57,12 @@ const Footer: React.FC = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         paddingLeft: 90
-                    }}>
+                    }} className="copyright-text-container">
                         <Text
                             className="copyright-text"
                             style={{
                                 display: 'block',
                                 color: 'black',
-                                textAlign: 'left'
                             }}
                         >
                             © {new Date().getFullYear()} Сибирский федеральный университет, Гуманитарный институт <br/>

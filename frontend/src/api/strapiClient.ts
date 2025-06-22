@@ -53,7 +53,8 @@ export const textApi = {
     },
 
     getText: async (id: string): Promise<Text> => {
-        const response = await strapiClient.get(`/texts/${id}`, {params: {populate: "*"}});
+        const response = await strapiClient.get(`/texts/${id}`,
+            {params: {populate: ["authors", "tags", "text_type", "logo", "text_author_type"]}});
         return response.data.data;
     },
 

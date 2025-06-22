@@ -14,6 +14,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items, changePage }) 
     if (items === null || items?.length === 0) {
         return null;
     }
+    console.log('TableOfContents items:', items);
 
     return (
         <>
