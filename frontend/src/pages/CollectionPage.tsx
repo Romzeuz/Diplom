@@ -91,10 +91,10 @@ const CollectionPage: React.FC = () => {
 
     return (
         <div className="collection-page">
-            <div className="background-vectors">
-                <img src={process.env.PUBLIC_URL + '/Vector 321.svg'} alt="Background Vector 1" className="bg-vector bg-vector-1" />
-                <img src={process.env.PUBLIC_URL + '/Vector 322.svg'} alt="Background Vector 2" className="bg-vector bg-vector-2" />
-            </div>
+            {/*<div className="background-vectors">*/}
+            {/*    <img src={process.env.PUBLIC_URL + '/Vector 321.svg'} alt="Background Vector 1" className="bg-vector bg-vector-1" />*/}
+            {/*    <img src={process.env.PUBLIC_URL + '/Vector 322.svg'} alt="Background Vector 2" className="bg-vector bg-vector-2" />*/}
+            {/*</div>*/}
             <SearchFilter
                 onSearch={handleSearch}
                 onTagsChange={handleTagsChange}

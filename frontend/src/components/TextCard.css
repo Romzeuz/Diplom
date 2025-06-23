@@ -2,6 +2,33 @@
     border-radius: 15px;
     backdrop-filter: blur(30px);
     /*width: 380px;*/
+    position: relative;
+    overflow: hidden;
+}
+
+.text-card:hover::before {
+    opacity: 1;
+}
+
+.text-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), #ACCFF2, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.text-card .ant-card-cover,
+.text-card .ant-card-body {
+    position: relative;
+    z-index: 2;
 }
 
 .text-card .ant-card-meta {

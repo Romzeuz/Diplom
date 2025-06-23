@@ -26,6 +26,7 @@ root.render(
                     },
                     Layout: {
                         lightSiderBg: 'transparent',
+                        bodyBg: '#ffffff',
                     },
                     Select: {
                         colorBorder: '#ACCFF2',
@@ -53,6 +54,7 @@ root.render(
                     lineHeightSM: 1.5,
 
                     // Добавляем цвета фона из токенов
+                    colorBgBase: '#ffffff',
                 },
             }}
         >
