@@ -19,7 +19,7 @@ const Header: React.FC = () => {
         <AntHeader className="custom-header">
             <div className="header-content">
                 <div className="site-logo">
-                    <Link to="/">Райбекас</Link>
+                    <Link to="/"><img src={'/лого_итог.svg'} alt="Райбекас" style={{ height: '55px' }} /></Link>
                 </div>
                 <Menu
                     theme="light"
@@ -37,4 +37,3 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-

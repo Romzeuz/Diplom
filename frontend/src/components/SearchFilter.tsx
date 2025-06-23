@@ -3,6 +3,7 @@ import { Input, Select, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import useDebounce from '../hooks/useDebounce';
 import {Tag} from "../types";
+import "./SearchFilter.css"
 
 const { Search } = Input;
 const { Option } = Select;
@@ -39,7 +40,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   return (
     <div className="search-filter">
       <Row gutter={16}>
-        <Col xs={24} md={16}>
+        <Col xs={24} md={16} className="search-col">
           <Search
             placeholder="Поиск по названию или содержанию"
             allowClear
@@ -50,7 +51,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
             onSearch={handleButtonSearch} // Используем отдельный обработчик
           />
         </Col>
-        <Col xs={24} md={8}>
+        <Col xs={24} md={8} className="search-col">
           <Select
             mode="multiple"
             style={{ width: '100%' }}

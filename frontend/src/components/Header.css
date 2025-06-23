@@ -1,8 +1,6 @@
 .custom-header {
-    background: #ACCFF2;
     height: 64px;
     min-height: 64px;
-    box-shadow: 0 2px 8px #f0f1f2;
     position: relative;
     padding: 0;
     overflow: hidden;
@@ -28,7 +26,6 @@
 .custom-header::after {
     left: 891px;
     width: 419px;
-    background: #ACCFF2;
 }
 
 /* Скрыть перекрытие псевдоэлементов на малых экранах */
@@ -52,11 +49,8 @@
 }
 
 .site-logo {
-    font-size: 1.7rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: #1a1a1a;
-    transition: color 0.2s;
+    display: flex;
+    align-items: center;
 }
 
 .site-logo a {

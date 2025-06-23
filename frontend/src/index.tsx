@@ -27,6 +27,7 @@ root.render(
                     Layout: {
                         lightSiderBg: 'transparent',
                         bodyBg: '#ffffff',
+                        headerBg: '#ACCFF2',
                     },
                     Select: {
                         colorBorder: '#ACCFF2',
@@ -42,7 +43,9 @@ root.render(
                     colorPrimary: '#ACCFF2',
                     colorInfo: '#ACCFF2',
                     colorLink: '#ACCFF2',
-                    borderRadius: 4,
+                    borderRadius: 15,
+                    colorBorder: '#ACCFF2',
+                    lineWidth: 3,
 
                     // Добавляем глобальный шрифт здесь
                     fontFamily: '"IBM Plex Sans", "Segoe UI", Roboto, ' +

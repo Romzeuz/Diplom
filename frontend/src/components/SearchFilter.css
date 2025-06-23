@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    .search-filter .search-col {
+        flex: 1 1 100%;
+        margin-bottom: 10px;
+    }
+}
