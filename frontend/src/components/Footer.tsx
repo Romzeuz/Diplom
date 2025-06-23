@@ -29,23 +29,22 @@ const Footer: React.FC = () => {
                 {/* Правая колонка - Контактная информация */}
                 <Col xs={24} sm={24} md={12} style={{display: 'flex', justifyContent: 'center'}}>
                     <div className="footer-contacts">
-                        <Link href="mailto:contact@raibekas-project.org" className="contact-item"
+                        <Link href="mailto:ithi@sfu-kras.ru" className="contact-item"
                               style={{color: 'black'}}>
                             <MailOutlined style={{marginRight: 8}}/>
                             contact@raibekas-project.org
                         </Link>
-                        <Link href="tel:+71234567890" className="contact-item" style={{color: 'black'}}>
+                        <Link href="tel:+7 (391) 206-26-75" className="contact-item" style={{color: 'black'}}>
                             <PhoneOutlined style={{marginRight: 8}}/>
                             +7 (123) 456-78-90
                         </Link>
                         <Link
-                            href={"https://www.figma.com/design/Dwo0AXPO4HFUpB5q6ZU3vo/%D0%A0%D0%B0%D0%B9%D0%B1%D0%B5%D0%BA%D0%B0%D1%81?node-id=226-338&t=WQ0b4hpUleebs89y-4"}
+                            href={"https://yandex.ru/maps/62/krasnoyarsk/house/svobodny_prospekt_82s1/bUsYcQFnSUAFQFtsfXxxdXRkZQ==/?ll=92.767052%2C56.004871&z=16"}
                             className="contact-item"
                             style={{color: 'black'}}
                         >
                             <EnvironmentOutlined style={{marginRight: 8}}/>
-                            г. Москва, ул.
-                            Примерная, д. 123</Link>
+                            пр. Свободный, 82, стр. 1, ауд. 4-40</Link>
                     </div>
                 </Col>
             </Row>
@@ -73,7 +72,7 @@ const Footer: React.FC = () => {
                 </Col>
                 <Col xs={24} sm={24} md={12}
                      style={{display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-                    <Link href="/privacy-policy" className="privacy-policy-link"
+                    <Link href="https://sfu.ru/ru/about/privacy-policy" className="privacy-policy-link"
                           style={{color: 'black', marginRight: 30, fontSize: 12}}>
                         Политика конфиденциальности
                     </Link>
