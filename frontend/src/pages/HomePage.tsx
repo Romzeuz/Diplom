@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Row, Typography, Image} from 'antd';
+import {Row, Typography, Image, Space} from 'antd';
 
 import ImagePane, {AlignEnum} from "../components/ImagePane";
 
@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
         <div className="home-page" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <Row gutter={[24, 24]} style={{marginTop: 48, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
                 <ImagePane
-                    ImageComponent={<Image src={"/text-raibekas.png"} preview={false} style={{
+                    ImageComponent={<Image src={"/Альберт Янович.png"} preview={false} style={{
                         height: 'auto',
                         maxHeight: 450,
                         width: 'auto',
@@ -39,13 +39,13 @@ const HomePage: React.FC = () => {
                     }
                     HeaderOverlapX={50}
                     HeaderOverlapY={70}
-                    TextOverlapX={10}
+                    TextOverlapX={-10}
                     maxTextWidth={500}
                 />
             </Row>
             <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-end'}}>
                 <ImagePane
-                    ImageComponent={<Image src={"/neuro-raibekas.png"} preview={false} style={{
+                    ImageComponent={<Image src={"/Философ и геометрия-Photoroom.png"} preview={false} style={{
                         height: 'auto',
                         maxHeight: 450,
                         width: 'auto',
@@ -62,7 +62,9 @@ const HomePage: React.FC = () => {
                     }
                     Align={AlignEnum.RIGHT}
                     LinkHref={"/collection"}
-                    maxTextWidth={"400"}
+                    maxTextWidth={450}
+                    HeaderOverlapY={250}
+                    TextOverlapY={230}
                 />
             </Row>
             <Row gutter={[24, 24]} style={{marginTop: 96, width: '100%', maxWidth: 1440, justifyContent: 'flex-start'}}>
@@ -92,7 +94,7 @@ const HomePage: React.FC = () => {
                 />
             </Row>
             <Row gutter={[24, 24]}
-                 style={{marginTop: 120, width: '100%', maxWidth: 1440, justifyContent: 'flex-end', marginBottom: 96}}>
+                 style={{marginTop: 120, width: '100%', maxWidth: 1440, justifyContent: 'flex-end', marginBottom: 160}}>
                 <ImagePane
                     ImageComponent={<Image
                         preview={false}
@@ -103,7 +105,7 @@ const HomePage: React.FC = () => {
                             maxWidth: '100%',
                             objectFit: 'contain'
                         }}
-                        src={"/neuro-raibekas.png"}
+                        src={"/team.png"}
                     />}
                     HeaderComponent={<Title level={3}>О проекте</Title>}
                     TextCardComponent={
@@ -116,8 +118,10 @@ const HomePage: React.FC = () => {
                     Align={AlignEnum.RIGHT}
                     LinkHref={"/about-project"}
                     maxTextWidth={400}
-                    TextOverlapY={250}
-                    HeaderOverlapY={250}
+                    TextOverlapY={370}
+                    TextOverlapX={170}
+                    HeaderOverlapY={400}
+                    HeaderOverlapX={170}
                 />
             </Row>
         </div>

@@ -170,7 +170,7 @@ const TextView: React.FC = () => {
     };
 
     return (
-        <>
+        <div className="text-view">
             <Flex align="center" gap={20} style={{marginBottom: '16px', padding: '0 24px'}}>
                 <BookOutlined style={{fontSize: '36px'}}/>
                 <Title level={3} style={{margin: 0}}>{text.title}</Title>
@@ -246,7 +246,7 @@ const TextView: React.FC = () => {
                     />
                 </Content>
             </Layout>
-        </>
+        </div>
     );
 };
 

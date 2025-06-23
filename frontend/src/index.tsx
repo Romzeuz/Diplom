@@ -50,6 +50,7 @@ root.render(
                         '"Helvetica Neue", sans-serif',
                     fontSize: 16,
                     colorTextBase: '#1E252C',
+                    colorText: '#1E252C',
                     lineHeight: 1.6,
                     lineHeightSM: 1.5,
 

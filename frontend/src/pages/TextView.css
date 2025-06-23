@@ -1,3 +1,7 @@
+.text-view {
+    margin-top: 20px;
+}
+
 .tag-container .tag {
     border: 1px solid #1E252C;
     color: #1E252C;
