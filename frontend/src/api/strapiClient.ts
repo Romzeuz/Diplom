@@ -20,7 +20,7 @@ export const textApi = {
         const query = qs.stringify({
             filters: {
                 title: {
-                    $contains: params?.search,
+                    $containsi: params?.search,
                 },
                 tags: {
                     documentId: {
@@ -29,7 +29,7 @@ export const textApi = {
                 },
                 authors: {
                     name: {
-                        $contains: params?.authorName,
+                        $containsi: params?.authorName,
                     },
                 },
             },
@@ -37,6 +37,7 @@ export const textApi = {
                 page: pagination?.page || 1,
                 pageSize: pagination?.pageSize || 12,
             },
+            sort: ['date:asc'],
             populate: ["authors", "tags", "text_type", "logo", "text_author_type"],
         });
         const response = await strapiClient.get(`/texts?${query}`);

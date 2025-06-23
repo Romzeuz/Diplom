@@ -38,15 +38,18 @@ const SidePanelContent: React.FC<SidePanelProps> = ({
                              style={{marginBottom: '20px', borderRadius: '8px'}}
                              preview={false}
         />}
-        <Keywords
-            keywords={text.key_words || []}
-            selectedKeyword={selectedKeyword}
-            onSelect={onKeywordSelect}
-            occurrenceCount={occurrenceCount}
-            currentOccurrence={currentOccurrence}
-            onPrev={onPrevOccurrence}
-            onNext={onNextOccurrence}
-        />
+        <div style={{marginBottom: '20px'}}>
+
+            <Keywords
+                keywords={text.key_words || []}
+                selectedKeyword={selectedKeyword}
+                onSelect={onKeywordSelect}
+                occurrenceCount={occurrenceCount}
+                currentOccurrence={currentOccurrence}
+                onPrev={onPrevOccurrence}
+                onNext={onNextOccurrence}
+            />
+        </div>
         <TableOfContents items={tocItems} changePage={changePage}/>
     </>
 );

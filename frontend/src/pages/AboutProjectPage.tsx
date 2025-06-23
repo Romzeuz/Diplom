@@ -5,34 +5,34 @@ import './styles/AboutProjectPage.css';
 
 const teamData = [
     {
-        name: 'Илья Нигматуллин',
-        role: 'Роль в проекте',
-        defaultImage: '/ilya-mu.png',
-        hoverImage: '/7.jpg',
-    },
-    {
         name: 'Вероника Леонтьева',
-        role: 'Роль в проекте',
+        role: 'Дизайнер',
         defaultImage: '/nika-mu.png',
         hoverImage: '/10.jpg',
     },
     {
         name: 'Артём Майдуров',
-        role: 'Роль в проекте',
+        role: 'Консультант',
         defaultImage: '/artem-mu.png',
         hoverImage: '/25 (2).jpg',
     },
     {
         name: 'Вячеслав Бойко',
-        role: 'Роль в проекте',
+        role: 'Заказчик',
         defaultImage: '/slava-mu.png',
         hoverImage: '/12.jpg',
     },
     {
         name: 'Роман Донец',
-        role: 'Роль в проекте',
+        role: 'Бэкенд разработчик',
         defaultImage: '/roma-mu.png',
         hoverImage: '/15.jpg',
+    },
+    {
+        name: 'Илья Нигматуллин',
+        role: 'Научный руководитель',
+        defaultImage: '/ilya-mu.png',
+        hoverImage: '/7.jpg',
     },
 ];
 
@@ -44,7 +44,7 @@ const AboutProjectPage: React.FC = () => {
                     Align={AlignEnum.LEFT}
                     ImageComponent={<img src="/Альберт Янович.png" alt="Digital Raibekas" style={{maxWidth: '500px'}}/>}
                     HeaderComponent={<h1 style={{
-                        fontSize: 'clamp(36px, 6vw, 120px)',
+                        fontSize: 'clamp(36px, 6vw, 96px)',
                         fontWeight: '500',
                     }}>Цифровой Райбекас</h1>}
                     TextCardComponent={

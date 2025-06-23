@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
             <Row gutter={[24, 24]}>
                 {/* Левая колонка - Логотипы партнеров */}
                 <Col xs={24} sm={24} md={12}>
-                    <div className="footer-partners" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className="footer-partners" style={{display: 'flex', justifyContent: 'space-between', maxWidth: '85%'}}>
                         <div className="partner-logo">
                             <img src="/Белый лого_СФУ.svg" alt="Логотип СФУ" className="partner-image"/>
                         </div>
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 </Col>
 
                 {/* Правая колонка - Контактная информация */}
-                <Col xs={24} sm={24} md={12} style={{display: 'flex', justifyContent: 'center'}}>
+                <Col xs={24} sm={24} md={12} className="footer-contacts-container">
                     <div className="footer-contacts">
                         <Link href="mailto:ithi@sfu-kras.ru" className="contact-item"
                               style={{color: 'black'}}>
@@ -55,7 +55,6 @@ const Footer: React.FC = () => {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        paddingLeft: 90
                     }} className="copyright-text-container">
                         <Text
                             className="copyright-text"
@@ -70,10 +69,9 @@ const Footer: React.FC = () => {
                         </Text>
                     </div>
                 </Col>
-                <Col xs={24} sm={24} md={12}
-                     style={{display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
+                <Col xs={24} sm={24} md={12} className="privacy-policy-container">
                     <Link href="https://sfu.ru/ru/about/privacy-policy" className="privacy-policy-link"
-                          style={{color: 'black', marginRight: 30, fontSize: 12}}>
+                          style={{color: 'black', fontSize: 12}}>
                         Политика конфиденциальности
                     </Link>
                 </Col>

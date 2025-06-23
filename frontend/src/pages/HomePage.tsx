@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
                     HeaderComponent={
                         <Title
                             style={{
-                                fontSize: 'clamp(36px, 6vw, 120px)',
+                                fontSize: 'clamp(36px, 6vw, 96px)',
                                 fontWeight: '500',
                             }}
                         >
@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
                             maxWidth: '100%',
                             objectFit: 'contain'
                         }}
-                        src={"/neuro-raibekas.png"}
+                        src={"/kgu.png"}
                     />}
                     HeaderComponent={<Title level={3}>Путь философа</Title>}
                     TextCardComponent={
@@ -91,6 +91,8 @@ const HomePage: React.FC = () => {
                     }
                     LinkHref={"/about-raibekas"}
                     maxTextWidth={400}
+                    TextOverlapX={-10}
+                    HeaderOverlapX={-10}
                 />
             </Row>
             <Row gutter={[24, 24]}

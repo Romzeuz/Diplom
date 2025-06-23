@@ -199,13 +199,15 @@ const TextView: React.FC = () => {
                         <Paragraph style={{fontWeight: 400, marginBottom: '24px', fontSize: '24px'}}>
                             <div style={{display: 'flex', alignItems: 'flex-start'}}>
                                 <UserOutlined style={{fontSize: '36px', marginRight: '20px'}}/>
-                                {text.authors?.map(
-                                    (author, index) => (
-                                        <span key={author.id}>
-                                    {author.name}{index < text.authors.length - 1 ? ', ' : ''}
-                                </span>
-                                    )
-                                )}
+                                <div>
+                                    {text.authors?.map(
+                                        (author, index) => (
+                                            <span key={author.id}>
+                                        {author.name}{index < text.authors.length - 1 ? ', ' : ''}
+                                    </span>
+                                        )
+                                    )}
+                                </div>
                             </div>
                         </Paragraph>
 
@@ -242,6 +244,7 @@ const TextView: React.FC = () => {
                         total={totalPages}
                         pageSize={1}
                         onChange={handlePageChange}
+                        showSizeChanger={false}
                         style={{marginTop: '16px', textAlign: 'center', justifyContent: 'center'}}
                     />
                 </Content>
