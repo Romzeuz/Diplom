@@ -32,11 +32,11 @@ const Footer: React.FC = () => {
                         <Link href="mailto:ithi@sfu-kras.ru" className="contact-item"
                               style={{color: 'black'}}>
                             <MailOutlined style={{marginRight: 8}}/>
-                            contact@raibekas-project.org
+                            ithi@sfu-kras.ru
                         </Link>
                         <Link href="tel:+7 (391) 206-26-75" className="contact-item" style={{color: 'black'}}>
                             <PhoneOutlined style={{marginRight: 8}}/>
-                            +7 (123) 456-78-90
+                            +7 (391) 206-26-75
                         </Link>
                         <Link
                             href={"https://yandex.ru/maps/62/krasnoyarsk/house/svobodny_prospekt_82s1/bUsYcQFnSUAFQFtsfXxxdXRkZQ==/?ll=92.767052%2C56.004871&z=16"}

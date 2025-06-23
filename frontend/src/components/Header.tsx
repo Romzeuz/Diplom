@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Menu, ConfigProvider} from 'antd';
+import {Layout, Menu} from 'antd';
 import {Link, useLocation} from 'react-router-dom';
 import './Header.css';
 
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
         <AntHeader className="custom-header">
             <div className="header-content">
                 <div className="site-logo">
-                    <Link to="/"><img src={'/лого_итог.svg'} alt="Райбекас" style={{ height: '55px' }} /></Link>
+                    <Link to="/"><img src={'/лого_итог.svg'} alt="Райбекас" style={{ height: '45px' }} /></Link>
                 </div>
                 <Menu
                     theme="light"
