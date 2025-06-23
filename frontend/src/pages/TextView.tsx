@@ -196,7 +196,7 @@ const TextView: React.FC = () => {
                     minHeight: 'calc(100vh - 230px)'
                 }}>
                     <div>
-                        <Paragraph style={{fontWeight: 400, marginBottom: '60px', fontSize: '24px'}}>
+                        <Paragraph style={{fontWeight: 400, marginBottom: '24px', fontSize: '24px'}}>
                             <div style={{display: 'flex', alignItems: 'flex-start'}}>
                                 <UserOutlined style={{fontSize: '36px', marginRight: '20px'}}/>
                                 {text.authors?.map(
