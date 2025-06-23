@@ -13,7 +13,7 @@ STRAPI_TOKEN = os.getenv("STRAPI_TOKEN")
 # Get the absolute path of the directory where the script is located.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # The 'output' directory is in the same directory as the script.
-OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output")
+OUTPUT_DIR = os.path.join(SCRIPT_DIR, "sytems")
 
 
 def upload_image(image_path):
@@ -150,7 +150,7 @@ def main():
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-                headings = re.findall(r"^#\s+(.*)", content, re.MULTILINE)
+                headings = re.findall(r"^#+\s+(.*)", content, re.MULTILINE)
                 for heading in headings:
                     table_of_contents.append({"title": heading.strip(), "page": page_number})
 

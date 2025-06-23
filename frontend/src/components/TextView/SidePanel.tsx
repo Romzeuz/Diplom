@@ -33,7 +33,7 @@ const SidePanelContent: React.FC<SidePanelProps> = ({
                                                         changePage,
                                                     }) => (
     <>
-        {text.logo && <Image src={`${API_CONFIG.STRAPI_MEDIA_URL}${text.logo.url}`}
+        {text.logo && <Image src={`${API_CONFIG.STRAPI_MEDIA_URL}${text.logo.url.slice(8)}`}
                              alt={text.title}
                              style={{marginBottom: '20px', borderRadius: '8px'}}
                              preview={false}

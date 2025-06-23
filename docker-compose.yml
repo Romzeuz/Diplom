@@ -48,6 +48,8 @@ services:
 
   frontend:
     container_name: frontend
+    env_file:
+      - ./frontend/.env.production
     build:
       context: ./frontend
       dockerfile: Dockerfile

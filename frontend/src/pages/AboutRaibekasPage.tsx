@@ -91,7 +91,7 @@ const AboutRaibekasPage: React.FC = () => {
                             <div className="timeline-event">
                                 {te.media && te.media.url && (
                                     <img
-                                        src={`${API_CONFIG.STRAPI_MEDIA_URL}${te.media.url}`}
+                                        src={`${API_CONFIG.STRAPI_MEDIA_URL}${te.media.url.slice(8)}`}
                                         alt={te.caption || 'Timeline image'}
                                         // style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '16px', marginTop: -40}}
                                     />

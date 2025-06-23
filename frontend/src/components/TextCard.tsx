@@ -36,7 +36,7 @@ const TextCard: React.FC<TextCardProps> = ({text}) => {
         <div ref={cardRef}>
             <Link to={`/text/${text.documentId}`}>
                 <Card
-                    cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url)}
+                    cover={<img alt={text.title} src={mediaApi.getMediaUrl(text.logo?.url.slice(8))}
                                 style={{borderTopLeftRadius: 15, borderTopRightRadius: 15}}/>}
                     style={{marginBottom: 16, background: '#ACCFF266'}}
                     className="text-card"

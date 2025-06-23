@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
                     HeaderComponent={
                         <Title
                             style={{
-                                fontSize: 'clamp(60px, 6vw, 120px)',
+                                fontSize: 'clamp(36px, 6vw, 120px)',
                                 fontWeight: '500',
                             }}
                         >
